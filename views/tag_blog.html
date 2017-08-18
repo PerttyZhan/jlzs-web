@@ -1,0 +1,97 @@
+<% include template/header.html %>
+
+		<div class="news-main">
+			<div class="container">
+				<div class="news-main--left">
+					<div class="news-all">
+						<div class="news-pages" id="pages">
+							<%- blogHtml %>
+						</div>
+					</div>
+				</div>
+				<div class="news-main--right">
+					<div class="fancy-news" id="fancy">
+						<p class="hot-title">
+							精彩推荐
+						</p>
+						<div class="swiper-container">
+						    <div class="swiper-wrapper">
+						    	<% fancy.forEach(function(f){ %>
+							        <div  class="swiper-slide">
+							        	<a href="<%=f.link%>" target="_blank" class="swiper-blcok"><img src="<%=f.src%>" /></a>
+							        </div>
+						        <% }) %>
+						    </div>
+						    <!-- 如果需要分页器 -->
+						    <div class="swiper-pagination"></div>
+						</div>
+					</div>
+					<div class="hot-news">
+						<p class="hot-title">
+							热门文章
+						</p>
+						<div class="hot-list">
+							<% include template/hotblog.html %>
+						</div>
+					</div>
+						<div class="hot-tags">
+							<p class="hot-title">
+								热门标签
+							</p>
+							<div class="hot-list">
+								<% include template/hottag.html %>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+		<% include template/footer.html %>
+	</body>
+
+	<% include template/script.html %>
+	<script src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.min.js"></script>
+	<script type="text/javascript">
+		
+		$(function () {
+			var $searchBlog = $('#searchBlog');
+			var $load = $('#loadMore');
+
+			var mySwiper = new Swiper ('.swiper-container', {
+				width: $('#fancy').width(),
+			    loop: true,
+			    autoplay: 3000,
+			    lazyLoading : true,
+				lazyLoadingInPrevNext : true,
+			    // autoplay: 3000,
+			    // 如果需要分页器
+			    pagination: '.swiper-pagination',
+			    
+			    scrollbarHide: true
+			}) 
+			
+			$(document.body).on('click', '#loadMore', function () {
+				var $this = $(this);
+				var $catalog = $searchBlog.find('a.active');
+				var params = $this.data();
+
+				params.page = parseInt(params.page) + 1;
+
+				if ($catalog.data('id')) {
+					params.secondcatalog =  $catalog.data('id');
+				}
+
+				$.ajax({
+					url: '/tag/<%=tagid%>/search',
+					data: params,
+					success: function (res) {
+						$this.replaceWith(res);
+					},
+					error: function (err) {
+						console.log(err)
+					}
+				})				
+			})
+		})
+
+	</script>
+</html>

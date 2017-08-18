@@ -1,0 +1,18 @@
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery_lazyload/1.9.7/jquery.lazyload.js"></script>
+<script type="text/javascript">
+	$(function () {
+		var $headMenu = $('#headerMenu');
+		$("img").lazyload({effect: "fadeIn", skip_invisible: true, failure_limit: 10});
+
+		$('#toggleMenu').on('click', function () {
+			if ($headMenu.hasClass('active')) {
+				$headMenu.removeClass('active')
+			}
+			else {
+				$headMenu.addClass('active')
+			}
+		})
+
+	})
+</script>

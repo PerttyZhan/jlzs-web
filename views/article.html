@@ -1,0 +1,165 @@
+<% include template/header.html %>
+
+		<div class="article">
+			<div class="container">
+				<div class="article--left">
+					<p class="article__catalog">
+						<span><%=blog.onecatalogname%></span>
+						<span><%=blog.secondcatalog.name%></span>
+					</p>
+					<p class="article__title" id="blog-title">
+						<%=blog.title%>
+					</p>
+					<div class="article__other">
+						<p><%=blog.created_at%></p>
+						<p>
+							<span><%=blog.creator%></span>
+						</p>
+					</div>
+
+					<div class="article-face-img">
+						<img data-original="<%=blog.img_src%>" class="lazy" alt="<%=blog.title%>" id="blog-img">
+					</div>
+					<div class="article-sm-title">
+						<%=blog.s_title%>
+					</div>
+					<div class="article__content">
+						<%-blog.content%>
+					</div>
+
+					<div class="article__tags">
+				    	<% blog.tags.forEach(function(t){ %>
+				    		<span><%=t.name%></span>
+				    	<% }) %>
+					</div>
+
+					<div class="article__relative-blog">
+						<p class="article__relative-title">
+							相关文章
+						</p>
+						<div class="relative-blog">
+				    		<% relativeBlog.forEach(function(b){ %>
+								<a href="/article/<%=b._id%>" class="relative-blog-item">
+									<img data-original="<%=b.img_src%>" />
+									<p class="relative-blog-title">
+										<span><%=b.title%></span>
+									</p>
+								</a>
+				    		<% }) %>
+						</div>
+					</div>
+
+					<div id="uyan_frame"></div>
+				</div>
+				<div class="article--right">
+					<div class="fancy-news" id="fancy">
+						<p class="hot-title">
+							精彩推荐
+						</p>
+						<div class="swiper-container">
+						    <div class="swiper-wrapper">
+						    	<% fancy.forEach(function(f){ %>
+							        <div  class="swiper-slide">
+							        	<a href="<%=f.link%>" target="_blank" class="swiper-blcok"><img src="<%=f.src%>" /></a>
+							        </div>
+						        <% }) %>
+						    </div>
+						    <!-- 如果需要分页器 -->
+						    <div class="swiper-pagination"></div>
+						</div>
+					</div>
+					
+					<div class="hot-news">
+						<p class="hot-title">
+							热门文章
+						</p>
+						<div class="hot-list">
+							<% include template/hotblog.html %>
+						</div>
+					</div>
+
+					
+
+					<div class="share-content" id="share">
+						<a href="#" data-share="qq"><i class="fa fa-qq"></i></a>
+						<a href="#" class="wx">
+							<i class="fa fa-weixin"></i>
+							<div class="wx-qr">
+								<img data-api="<%=api%>" id="qrcode" width="100" height="100"/>
+							</div>
+						</a>
+						<a href="#" data-share="wb"><i class="fa fa-weibo"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<span class="goTop" id="goTop"><i class="ion-chevron-up"></i></span>
+		<% include template/footer.html %>
+	</body>
+	
+	<% include template/script.html %>
+	<script src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.min.js"></script>
+	<script type="text/javascript">
+		var $qrcode = $('#qrcode');
+
+		$qrcode.attr( 'src', $qrcode.data('api') + '/qrcode?text=' + encodeURI(window.location.href));
+
+		$(function () {
+			var $btnGoTop = $('#goTop');
+
+			$(window).scroll(function (e) {
+				var scrollTop = $(window).scrollTop();
+				if (scrollTop <= 788) {
+					$btnGoTop.hide();
+				}
+				else {
+					$btnGoTop.show();
+				}
+			})
+
+			console.log('aaa')
+			var mySwiper = new Swiper ('.swiper-container', {
+				width: $('#fancy').width(),
+			    loop: true,
+			    autoplay: 3000,
+			    lazyLoading : true,
+				lazyLoadingInPrevNext : true,
+			    // autoplay: 3000,
+			    // 如果需要分页器
+			    pagination: '.swiper-pagination',
+			    
+			    scrollbarHide: true
+			})
+
+			$btnGoTop.on('click', function () {
+				$('html,body').animate({scrollTop: 0}, 500)
+			})
+
+			$('#share').on('click', 'a', function (e) {
+				e.preventDefault();
+				var $this = $(this),
+					$title = $('#blog-title'),
+					$img = $('#blog-img');
+
+				var type = $this.data('share'),
+					title = encodeURI($title.text().trim()),
+					picurl = encodeURI($img.attr('src'));
+
+				var shareStr = '',
+					url = encodeURI(window.location.href);
+
+				if (type === 'qq') {
+					shareStr = 'https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?title='+title+'&url='+url+'&pics='+picurl;
+				}
+				else if (type === 'wb') {
+					shareStr='http://service.weibo.com/share/share.php?title='+title+'&url='+url+'&content=utf-8&sourceUrl='+url+'&pics='+picurl
+				}
+
+				if (shareStr) {
+					window.open(shareStr);
+				}
+			})
+		})
+	</script>
+</html>

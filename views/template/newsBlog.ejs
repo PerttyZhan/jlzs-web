@@ -1,0 +1,35 @@
+<% data && data.forEach(function(b){ %>
+	<div class="news-item">
+		<div class="news-image">
+			<a href="/article/<%=b._id%>" target="_blank"><img src="<%=b.img_src%>" /></a>
+			
+		</div>
+		<div class="news-des">
+			<a class="news-title" href="/article/<%=b._id%>" target="_blank"><%=b.title%></a>
+			<p class="news-smll-title"><%=b.s_title%></p>
+
+			<div class="news-keys">
+				<% b.tags.forEach(function(t){ %>
+					<span><%= t.name %></span>
+				<% }) %>
+			</div>
+			
+			<div class="news-posts">
+				<span><i class="ion-ios-calendar-outline"></i><%=b.created_at%></span>
+				<div>
+					<span><%=b.creator%> <i class="ion-person"></i></span>
+				</div>
+			</div>
+		</div>
+	</div>
+<% }) %>
+
+<% if (now_page < last_page) { %>
+	<div class="news-loadmore" 
+		id="loadMore" 
+		data-page="<%=now_page%>" 
+		data-last_page="<%=last_page%>" 
+		data-per_page="<%=per_page%>">
+		加载更多
+	</div>
+<% } %>

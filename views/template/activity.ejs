@@ -1,0 +1,9 @@
+	
+<% data.forEach(function(b){ %>
+	<a href="/article/<%=b._id%>" target="_blank" class="activity">
+		<img src="<%=b.img_src%>">
+		<div class="activity__des">
+			<p><%=b.title%></p>
+		</div>
+	</a>
+<% }) %>

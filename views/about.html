@@ -1,0 +1,46 @@
+<% include template/header.html %>
+
+		<div class="about">
+			<div class="container">
+				<div class="about--left" id="left">
+					<% catalog.forEach(function(c){ %>
+						<p><%=c.catalog.name%></p>
+       				<% }) %>
+				</div>
+				<div class="about--right" id="right">
+					<% catalog.forEach(function(c, i){ %>
+						<div class="about">
+							<% if (c.blog.length) {%>
+								<%-c.blog[0].content%>
+							<% } %>
+						</div>
+       				<% }) %>
+				</div>
+			</div>
+		</div>
+		<% include template/footer.html %>
+	</body>
+
+	<% include template/script.html %>
+	<script type="text/javascript">
+		$(function () {
+
+			var $left = $('#left');
+			var $right = $('#right');
+			$left.find('p:first-child').addClass('active');
+			$right.find('div:first-child').show();
+
+			$left.on('click', 'p', function () {
+				var $this = $(this);
+				var index = $this.index();
+				if ( $this.hasClass('active') ) {
+
+				}
+				else {
+					$this.addClass('active').siblings().removeClass('active');
+					$right.find('.about').hide().eq(index).show();	
+				}
+			})
+		})
+	</script>
+</html>

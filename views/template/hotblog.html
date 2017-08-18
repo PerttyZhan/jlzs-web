@@ -1,0 +1,15 @@
+<% hotBlog.forEach(function(b){ %>
+<div class="new">
+	<div class="new--left">
+		<a href="/article/<%=b._id%>" target="_blank"><img data-original="<%=b.img_src %>"></a>
+	</div>
+	<div class="new--right">
+		<a class="new-title" href="/article/<%=b._id%>" target="_blank">
+			<%=b.title %>
+		</a>
+	</div>
+	<p class="new-author">
+		<i class="ion-person"></i>	<%=b.creator%>
+	</p>
+</div>
+<% }) %>

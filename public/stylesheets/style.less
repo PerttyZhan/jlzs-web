@@ -1,0 +1,49 @@
+
+@import './variable/index';
+
+@import './component/button';
+@import './component/nav';
+@import './component/header';
+@import './component/pages';
+
+@import './page/home';
+@import './page/news';
+@import './page/activity';
+@import './page/about';
+@import './page/article';
+
+html,body {
+    min-height: 100%;
+}
+html {
+    position: relative;
+}
+body {
+    background: @body-background;
+    font-size: @font-size;
+    color: @text-color;
+    font-family: @font-family;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin:0 auto;
+    padding-bottom: 87px;
+}
+
+input {
+    outline: none;
+    &:active, &:focus {
+        background: none;
+        outline: none;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: @text-color;
+}
+
+.container {
+	width: @main-content-width;
+	max-width: @body-max-width;
+	margin: 0 auto;
+}

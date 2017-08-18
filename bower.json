@@ -1,0 +1,22 @@
+{
+  "name": "jlzj",
+  "description": "",
+  "main": "",
+  "authors": [
+    "zhan heng <1272486734@qq.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "pure": "^1.0.0",
+    "Ionicons": "ionicons#^2.0.1"
+  }
+}

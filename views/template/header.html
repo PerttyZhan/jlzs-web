@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8">
+		<meta content="initial-scale=1.0, width=device-width" name="viewport">
+		<meta content="webkit" name="renderer">
+		<meta content="<%=des%>" name="description">
+		<meta content="<%=keywords%>" name="keywords">
+		<title><%= title %></title>
+		<link href="/images/WechatIMG267.png" rel="icon" sizes="196x196">
+		<link href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/minireset.css/0.0.2/minireset.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+		<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+	</head>
+	<body>
+		<header class="header">
+			<div class="container">
+				<div class="header-logo">
+					<a href="/" class="logo">
+						<img src="/images/WechatIMG261.png" alt="接力浙商">
+					</a>
+					
+				</div>
+				<div class="header-menu" id="headerMenu">
+					<div class="nav">
+						<a href="/" <% if (key === 'home') {%> class="active" <%}%> >首页</a>
+						<a href="/news" <% if (key === 'news') {%> class="active" <%}%> >资讯</a>
+						<a href="/report" <% if (key === 'report') {%> class="active" <%}%> >报道</a>
+						<a href="/activity" <% if (key === 'activity') {%> class="active" <%}%> >活动</a>
+						<!-- <a href="/about" <% if (key === 'about') {%> class="active" <%}%> >关于我们</a> -->
+					</div>
+				</div>
+				<div class="header-btn">
+					<a href="#" class="btn toggleMenu" id="toggleMenu"><i class="ion-android-menu"></i></a>
+					<a class="gzh">
+						<span>微信公众号</span>
+						<div class="gzh-img">
+							<img src="/images/WechatIMG942.jpeg">
+						</div>
+					</a>
+					<a href="https://jinshuju.net/f/KYgMEK" target="_blank" class="btn report">申请报道</a>
+				</div>
+			</div>
+		</header>

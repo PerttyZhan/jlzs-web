@@ -1,0 +1,260 @@
+<% include template/header.html %>
+
+		<div class="banner">
+			<div class="container swiper-container">
+			    <div class="swiper-wrapper">
+			    	<% banner.forEach(function(b){ %>
+				        <div  class="swiper-slide">
+				        	<a href="<%=b.link%>" target="_blank" class="swiper-blcok"><img src="<%=b.src%>" /></a>
+				        </div>
+			        <% }) %>
+			    </div>
+			    <!-- 如果需要分页器 -->
+			    <div class="swiper-pagination"></div>
+			    
+			    <!-- 如果需要导航按钮 -->
+			    <div class="swiper-button-prev"></div>
+			    <div class="swiper-button-next"></div>
+			</div>
+		</div>
+
+		<div class="lastnews">
+			<div class="container">
+				<div class="banner-left" id="bannerLeft">
+					<%if (lastBlog.length) {%>
+						<a target="_blank" href="/article/<%=lastBlog[0]._id%>" class="lastnews-show" >
+							<img src="<%=lastBlog[0].img_src%>" class="lastnews-show__img"/>
+							<div class="lastnews-show__des">
+								<p class="lastnews-show__title"><%=lastBlog[0].title%></p>
+							</div>
+						</a>
+					<% } %>
+				</div>
+				<div class="banner-right" id="bannerRight">
+					<div class="lastnews-list">
+						<p class="lastnews-list__title">最新消息</p>
+			    		<% lastBlog.forEach(function(b){ %>
+							<a href="/article/<%=b._id%>" target="_blank" class="lastnews-list__item" 
+								data-img="<%=b.img_src%>" 
+								data-id="<%=b._id%>"
+								data-title="<%=b.title%>">
+								<p class="lastnews-list__item-title"><%=b.title%></p>
+								<p class="lastnews-list__item-s_title"><%=b.s_title%></p>
+							</a>
+			       		<% }) %>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="news-main">
+			<div class="container">
+				<div class="news-main--left">
+
+					<div class="news-module long">
+						<div class="news-module__title">
+							资讯
+							<div class="news-module__type">
+			    				<% newsCatalog.forEach(function(c){ %>
+									<a href="/news?sc=<%=c.catalog._id%>" target="_blank"><%=c.catalog.name%></a>
+			       				<% }) %>
+							</div>
+						</div>
+			    		<% newsCatalog.forEach(function(c){ %>
+			    			<% if (c.blog.length) { %>
+								<div class="news-module__list">
+									<div class="news-module__item">
+										<a href="/article/<%=c.blog[0]._id%>" target="_blank" class="news-module--left">
+											<img class="new-img lazy" data-original="<%=c.blog[0].img_src%>">
+											<div class="news--hot-catalog"><%=c.catalog.name%></div>
+										</a>
+										<div class="news-module--right">
+											<a class="new-title" href="/article/<%=c.blog[0]._id%>" target="_blank"><%=c.blog[0].title%></a>
+											<div class="news-sm-title">
+												<%=c.blog[0].s_title%>
+											</div>
+											<p class="new-date">
+												<span class="author">
+													<%=c.blog[0].creator %>
+												</span>
+												<span>
+													<%=c.blog[0].created_at%>
+												</span>
+											</p>
+										</div>
+									</div>
+
+									<ul class="customer-news">
+				    					<% c.blog.forEach(function(b, i){ %>
+			    							<% if (i) { %>
+												<li>
+													<a href="/article/<%=b._id%>" target="_blank"><%=b.title %></a>
+												</li>
+											<% } %>
+				       					<% }) %>
+									</ul>
+								</div>
+			       			<% } %>
+			       		<% }) %>
+					</div>
+
+					<div class="news-module long">
+						<div class="news-module__title">
+							报道
+							<div class="news-module__type">
+								<% reportCatalog.forEach(function(c){ %>
+									<a href="/report?sc=<%=c.catalog._id%>" target="_blank"><%=c.catalog.name%></a>
+			       				<% }) %>
+							</div>
+						</div>
+						
+						<% reportCatalog.forEach(function(c){ %>
+			    			<% if (c.blog.length) { %>
+								<div class="news-module__list">
+									<div class="news-module__item">
+										<a href="/article/<%=c.blog[0]._id%>" target="_blank" class="news-module--left">
+											<img class="new-img lazy" data-original="<%=c.blog[0].img_src%>">
+											<div class="news--hot-catalog"><%=c.catalog.name%></div>
+										</a>
+										<div class="news-module--right">
+											<a class="new-title" href="/article/<%=c.blog[0]._id%>" target="_blank"><%=c.blog[0].title%></a>
+											<div class="news-sm-title">
+												<%=c.blog[0].s_title%>
+											</div>
+											<p class="new-date">
+												<span class="author">
+													<%=c.blog[0].creator %>
+												</span>
+												<span>
+													<%=c.blog[0].created_at%>
+												</span>
+											</p>
+										</div>
+									</div>
+
+									<ul class="customer-news">
+				    					<% c.blog.forEach(function(b, i){ %>
+			    							<% if (i) { %>
+												<li>
+													<a href="/article/<%=b._id%>" target="_blank"><%=b.title %></a>
+												</li>
+											<% } %>
+				       					<% }) %>
+									</ul>
+								</div>
+			       			<% } %>
+			       		<% }) %>
+
+					</div>
+
+					<div class="news-module long">
+						<div class="news-module__title">
+							活动
+							<div class="news-module__type">
+								<% activityCatalog.forEach(function(c){ %>
+									<a href="/activity?sc=<%=c.catalog._id%>" target="_blank"><%=c.catalog.name%></a>
+			       				<% }) %>
+							</div>
+						</div>
+						
+						<% activityCatalog.forEach(function(c){ %>
+			    			<% if (c.blog.length) { %>
+								<div class="news-module__list">
+									<div class="news-module__item">
+										<a href="/article/<%=c.blog[0]._id%>" target="_blank" class="news-module--left">
+											<img class="new-img lazy" data-original="<%=c.blog[0].img_src%>">
+											<div class="news--hot-catalog"><%=c.catalog.name%></div>
+										</a>
+										<div class="news-module--right">
+											<a class="new-title" href="/article/<%=c.blog[0]._id%>" target="_blank"><%=c.blog[0].title%></a>
+											<div class="news-sm-title">
+												<%=c.blog[0].s_title%>
+											</div>
+											<p class="new-date">
+												<span class="author">
+													<%=c.blog[0].creator %>
+												</span>
+												<span>
+													<%=c.blog[0].created_at%>
+												</span>
+											</p>
+										</div>
+									</div>
+
+									<ul class="customer-news">
+				    					<% c.blog.forEach(function(b, i){ %>
+			    							<% if (i) { %>
+												<li>
+													<a href="/article/<%=b._id%>" target="_blank"><%=b.title %></a>
+												</li>
+											<% } %>
+				       					<% }) %>
+									</ul>
+								</div>
+			       			<% } %>
+			       		<% }) %>
+
+					</div>
+					
+				</div>
+				<div class="news-main--right">
+					<div class="hot-news">
+						<p class="hot-title">
+							热门文章
+						</p>
+						<div class="hot-list">
+							<% include template/hotblog.html %>
+						</div>
+					</div>
+
+					<div class="hot-tags">
+						<p class="hot-title">
+							热门标签
+						</p>
+						<div class="hot-list">
+							<% include template/hottag.html %>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<% include template/footer.html %>
+	</body>
+	<% include template/script.html %>
+	<script src="https://cdn.bootcss.com/Swiper/3.4.2/js/swiper.min.js"></script>
+	<script type="text/javascript">
+
+		$(function () {
+
+			var mySwiper = new Swiper ('.swiper-container', {
+			    loop: true,
+			    autoplay: 3000,
+			    lazyLoading : true,
+				lazyLoadingInPrevNext : true,
+			    // autoplay: 3000,
+			    // 如果需要分页器
+			    pagination: '.swiper-pagination',
+			    
+			    // 如果需要前进后退按钮
+			    nextButton: '.swiper-button-next',
+			    prevButton: '.swiper-button-prev',
+			    scrollbarHide: true
+			}) 
+
+			var $bannerRight = $('#bannerRight');
+			var $bannerLeft = $('#bannerLeft');
+
+			$('.lastnews-list__item').hover(function () {
+				var $this = $(this);
+				var data = $this.data();
+
+				$this.addClass('active').siblings().removeClass('active');
+				
+				$bannerLeft.find('.lastnews-show').attr('href', '/article/'+data.id);
+				$bannerLeft.find('.lastnews-show__img').attr('src', data.img);
+				$bannerLeft.find('.lastnews-show__title').html(data.title);
+			})
+
+		})
+	</script>
+</html>
