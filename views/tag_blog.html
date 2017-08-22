@@ -18,7 +18,7 @@
 						    <div class="swiper-wrapper">
 						    	<% fancy.forEach(function(f){ %>
 							        <div  class="swiper-slide">
-							        	<a href="<%=f.link%>" target="_blank" class="swiper-blcok"><img src="<%=f.src%>" /></a>
+							        	<a href="<%=f.link%>" target="_blank" class="swiper-blcok"><img src="<%=f.src_img%>" /></a>
 							        </div>
 						        <% }) %>
 						    </div>
@@ -53,7 +53,6 @@
 	<script type="text/javascript">
 		
 		$(function () {
-			var $searchBlog = $('#searchBlog');
 			var $load = $('#loadMore');
 
 			var mySwiper = new Swiper ('.swiper-container', {
@@ -71,7 +70,6 @@
 			
 			$(document.body).on('click', '#loadMore', function () {
 				var $this = $(this);
-				var $catalog = $searchBlog.find('a.active');
 				var params = $this.data();
 
 				params.page = parseInt(params.page) + 1;
@@ -81,7 +79,7 @@
 				}
 
 				$.ajax({
-					url: '/tag/<%=tagid%>/search',
+					url: '/tag/search/<%=tag_id%>/<%=diff%>',
 					data: params,
 					success: function (res) {
 						$this.replaceWith(res);

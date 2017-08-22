@@ -5,11 +5,11 @@
 			
 		</div>
 		<div class="news-des">
-			<a class="news-title" href="/<%=b.difference%>/article/<%=b.id%>" target="_blank"><%=b.headline%></a>
+			<a class="news-title" href="/article/<%=b.id%>" target="_blank"><%=b.headline%></a>
 			<p class="news-smll-title"><%=b.title%></p>
 
 			<div class="news-keys">
-				<% b.tag.forEach(function(t){ %>
+				<% b.intag.forEach(function(t){ %>
 					<span><%= t.name %></span>
 				<% }) %>
 			</div>
@@ -17,7 +17,7 @@
 			<div class="news-posts">
 				<span><i class="ion-ios-calendar-outline"></i><%=b.created_at%></span>
 				<div>
-					<span><%=b.name%> <i class="ion-person"></i></span>
+					<span><%=b.creator%> <i class="ion-person"></i></span>
 				</div>
 			</div>
 		</div>
@@ -27,7 +27,8 @@
 <% if (current_page < last_page) { %>
 	<div class="news-loadmore" 
 		id="loadMore" 
-		data-page="<%=current_page%>">
+		data-page="<%=current_page%>"
+		data-choice=<%=information%>>
 		加载更多
 	</div>
 <% } %>

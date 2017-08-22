@@ -1,0 +1,11 @@
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+    	<% fancy.forEach(function(f){ %>
+	        <div  class="swiper-slide">
+	        	<a href="<%=f.link%>" target="_blank" class="swiper-blcok"><img src="<%=f.src_img%>" /></a>
+	        </div>
+        <% }) %>
+    </div>
+    <!-- 如果需要分页器 -->
+    <div class="swiper-pagination"></div>
+</div>

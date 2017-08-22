@@ -1,28 +1,42 @@
 var request = require('superagent');
 var Q = require('q');
+var async = require('async');
 var config = require('../config');
 
 module.exports = {
-	getList (name) {
+	getTypesBlog (choice) {
 		var deferred = Q.defer();
 		request
-			.get(config.api_url + '/secondcatalog')
-			.query({search: `onecatalog,=,${name}`})
+			.get(config.api_url + '/sort')
+			.query({choice: choice})
 			.end((err, res) => {
-				res || (res = {})
-				deferred.resolve(res.body || {});
+				async.map(res.body, (item, cb) => {
+					request
+						.get(config.api_url + '/web_index')
+						.query({choice: choice, sort_id: item.id})
+						.end((err, res) => {
+							cb(null, {
+								id: item.id,
+								name: item.sort,
+								blog: res.body
+							})
+						})
+				},  (err, results) => {
+					deferred.resolve(results);
+				})
 			})
 		return deferred.promise;
 	},
-	getSecondCatalogBlog (name) {
+	getType (choice) {
 		var deferred = Q.defer();
+
 		request
-			.get(config.api_url + '/secondcatalog/blog')
-			.query({search: `onecatalog,=,${name}`})
+			.get(config.api_url + '/sort')
+			.query({choice: choice})
 			.end((err, res) => {
-				res || (res = {})
-				deferred.resolve(res.body || []);
+				deferred.resolve(res.body);
 			})
+
 		return deferred.promise;
 	}
 }

@@ -6,7 +6,7 @@
 				    <div class="swiper-wrapper">
 				        <% banner.forEach(function(b){ %>
 					        <div  class="swiper-slide">
-				        		<a href="<%=b.link%>" target="_blank" class="swiper-blcok"><img src="<%=b.src%>" /></a>
+				        		<a href="<%=b.link%>" target="_blank" class="swiper-blcok"><img src="<%=b.src_img%>" /></a>
 					        </div>
 				        <% }) %>
 				    </div>
@@ -25,12 +25,12 @@
 				<div class="activity-title">
 					活动
 					<div class="activity-types">
-						<a href="/activity" <% if (!activeCatalogID) { %> class="active" <% } %>>所有</a>
+						<a href="/activities" <% if (!typeID) { %> class="active" <% } %>>所有</a>
 						<% catalog.forEach(function(c){ %>
-							<a href="/activity?sc=<%=c._id%>" 
-								<% if (c._id == activeCatalogID) { %> class="active" <% } %>
-								data-id="<%=c._id%>">
-								<%=c.name%>
+							<a href="/activities/<%=c.id%>" 
+								<% if (c.id == typeID) { %> class="active" <% } %>
+								data-id="<%=c.id%>">
+								<%=c.sort%>
 							</a>
 						<% }) %>
 					</div>

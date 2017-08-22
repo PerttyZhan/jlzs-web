@@ -5,7 +5,7 @@
 			    <div class="swiper-wrapper">
 			    	<% banner.forEach(function(b){ %>
 				        <div  class="swiper-slide">
-				        	<a href="<%=b.link%>" target="_blank" class="swiper-blcok"><img src="<%=b.src%>" /></a>
+				        	<a href="<%=b.link%>" target="_blank" class="swiper-blcok"><img src="<%=b.src_img%>" /></a>
 				        </div>
 			        <% }) %>
 			    </div>
@@ -22,10 +22,10 @@
 			<div class="container">
 				<div class="banner-left" id="bannerLeft">
 					<%if (lastBlog.length) {%>
-						<a target="_blank" href="/article/<%=lastBlog[0]._id%>" class="lastnews-show" >
+						<a target="_blank" href="/<%=lastBlog[0].difference%>/<%=lastBlog[0].id%>" class="lastnews-show" >
 							<img src="<%=lastBlog[0].img_src%>" class="lastnews-show__img"/>
 							<div class="lastnews-show__des">
-								<p class="lastnews-show__title"><%=lastBlog[0].title%></p>
+								<p class="lastnews-show__title"><%=lastBlog[0].headline%></p>
 							</div>
 						</a>
 					<% } %>
@@ -34,12 +34,12 @@
 					<div class="lastnews-list">
 						<p class="lastnews-list__title">最新消息</p>
 			    		<% lastBlog.forEach(function(b){ %>
-							<a href="/article/<%=b._id%>" target="_blank" class="lastnews-list__item" 
+							<a href="/<%=b.difference%>/<%=b.id%>" target="_blank" class="lastnews-list__item" 
 								data-img="<%=b.img_src%>" 
-								data-id="<%=b._id%>"
-								data-title="<%=b.title%>">
-								<p class="lastnews-list__item-title"><%=b.title%></p>
-								<p class="lastnews-list__item-s_title"><%=b.s_title%></p>
+								data-id="<%=b.id%>"
+								data-title="<%=b.headline%>">
+								<p class="lastnews-list__item-title"><%=b.headline%></p>
+								<p class="lastnews-list__item-s_title"><%=b.title%></p>
 							</a>
 			       		<% }) %>
 					</div>
@@ -53,10 +53,10 @@
 
 					<div class="news-module long">
 						<div class="news-module__title">
-							资讯
+							产业
 							<div class="news-module__type">
 			    				<% newsCatalog.forEach(function(c){ %>
-									<a href="/news?sc=<%=c.catalog._id%>" target="_blank"><%=c.catalog.name%></a>
+									<a href="/information/<%=c.id%>" target="_blank"><%=c.name%></a>
 			       				<% }) %>
 							</div>
 						</div>
@@ -64,18 +64,18 @@
 			    			<% if (c.blog.length) { %>
 								<div class="news-module__list">
 									<div class="news-module__item">
-										<a href="/article/<%=c.blog[0]._id%>" target="_blank" class="news-module--left">
+										<a href="/information/article/<%=c.blog[0].id%>" target="_blank" class="news-module--left">
 											<img class="new-img lazy" data-original="<%=c.blog[0].img_src%>">
-											<div class="news--hot-catalog"><%=c.catalog.name%></div>
+											<div class="news--hot-catalog"><%=c.name%></div>
 										</a>
 										<div class="news-module--right">
-											<a class="new-title" href="/article/<%=c.blog[0]._id%>" target="_blank"><%=c.blog[0].title%></a>
+											<a class="new-title" href="/information/article/<%=c.blog[0].id%>" target="_blank"><%=c.blog[0].headline%></a>
 											<div class="news-sm-title">
-												<%=c.blog[0].s_title%>
+												<%=c.blog[0].title%>
 											</div>
 											<p class="new-date">
 												<span class="author">
-													<%=c.blog[0].creator %>
+													<%=c.blog[0].name %>
 												</span>
 												<span>
 													<%=c.blog[0].created_at%>
@@ -88,7 +88,7 @@
 				    					<% c.blog.forEach(function(b, i){ %>
 			    							<% if (i) { %>
 												<li>
-													<a href="/article/<%=b._id%>" target="_blank"><%=b.title %></a>
+													<a href="/information/article/<%=b.id%>" target="_blank"><%=b.headline %></a>
 												</li>
 											<% } %>
 				       					<% }) %>
@@ -100,10 +100,10 @@
 
 					<div class="news-module long">
 						<div class="news-module__title">
-							报道
+							特写
 							<div class="news-module__type">
 								<% reportCatalog.forEach(function(c){ %>
-									<a href="/report?sc=<%=c.catalog._id%>" target="_blank"><%=c.catalog.name%></a>
+									<a href="/report/<%=c.id%>" target="_blank"><%=c.name%></a>
 			       				<% }) %>
 							</div>
 						</div>
@@ -112,18 +112,18 @@
 			    			<% if (c.blog.length) { %>
 								<div class="news-module__list">
 									<div class="news-module__item">
-										<a href="/article/<%=c.blog[0]._id%>" target="_blank" class="news-module--left">
+										<a href="/report/article/<%=c.blog[0].id%>" target="_blank" class="news-module--left">
 											<img class="new-img lazy" data-original="<%=c.blog[0].img_src%>">
-											<div class="news--hot-catalog"><%=c.catalog.name%></div>
+											<div class="news--hot-catalog"><%=c.name%></div>
 										</a>
 										<div class="news-module--right">
-											<a class="new-title" href="/article/<%=c.blog[0]._id%>" target="_blank"><%=c.blog[0].title%></a>
+											<a class="new-title" href="/report/article/<%=c.blog[0].id%>" target="_blank"><%=c.blog[0].headline%></a>
 											<div class="news-sm-title">
-												<%=c.blog[0].s_title%>
+												<%=c.blog[0].title%>
 											</div>
 											<p class="new-date">
 												<span class="author">
-													<%=c.blog[0].creator %>
+													<%=c.blog[0].name %>
 												</span>
 												<span>
 													<%=c.blog[0].created_at%>
@@ -136,7 +136,7 @@
 				    					<% c.blog.forEach(function(b, i){ %>
 			    							<% if (i) { %>
 												<li>
-													<a href="/article/<%=b._id%>" target="_blank"><%=b.title %></a>
+													<a href="/report/article/<%=b.id%>" target="_blank"><%=b.headline %></a>
 												</li>
 											<% } %>
 				       					<% }) %>
@@ -152,7 +152,7 @@
 							活动
 							<div class="news-module__type">
 								<% activityCatalog.forEach(function(c){ %>
-									<a href="/activity?sc=<%=c.catalog._id%>" target="_blank"><%=c.catalog.name%></a>
+									<a href="/activities/<%=c._id%>" target="_blank"><%=c.name%></a>
 			       				<% }) %>
 							</div>
 						</div>
@@ -161,18 +161,18 @@
 			    			<% if (c.blog.length) { %>
 								<div class="news-module__list">
 									<div class="news-module__item">
-										<a href="/article/<%=c.blog[0]._id%>" target="_blank" class="news-module--left">
+										<a href="/activities/article/<%=c.blog[0].id%>" target="_blank" class="news-module--left">
 											<img class="new-img lazy" data-original="<%=c.blog[0].img_src%>">
 											<div class="news--hot-catalog"><%=c.catalog.name%></div>
 										</a>
 										<div class="news-module--right">
-											<a class="new-title" href="/article/<%=c.blog[0]._id%>" target="_blank"><%=c.blog[0].title%></a>
+											<a class="new-title" href="/activities/article/<%=c.blog[0].id%>" target="_blank"><%=c.blog[0].headline%></a>
 											<div class="news-sm-title">
-												<%=c.blog[0].s_title%>
+												<%=c.blog[0].title%>
 											</div>
 											<p class="new-date">
 												<span class="author">
-													<%=c.blog[0].creator %>
+													<%=c.blog[0].name %>
 												</span>
 												<span>
 													<%=c.blog[0].created_at%>
@@ -185,7 +185,7 @@
 				    					<% c.blog.forEach(function(b, i){ %>
 			    							<% if (i) { %>
 												<li>
-													<a href="/article/<%=b._id%>" target="_blank"><%=b.title %></a>
+													<a href="/activities/article/<%=b.id%>" target="_blank"><%=b.headline %></a>
 												</li>
 											<% } %>
 				       					<% }) %>

@@ -1,24 +1,14 @@
 
 const oneCatalog = {
-	'news': '资讯',
-	'report': '报道',
-	'activity': '活动'
+	'information': '产业',
+	'report': '特写',
+	'activities': '活动'
 }
 
 module.exports = {
-	addOnecatalogName (data) {
-		if (Array.isArray(data)) {
-			data.forEach(d => {
-				if ( oneCatalog[d.onecatalog] ) {
-					d.onecatalogname = oneCatalog[d.onecatalog];
-				}
-			})
-		}
-		else {
-			if ( oneCatalog[data.onecatalog] ) {
-				data.onecatalogname = oneCatalog[data.onecatalog];
-			}
-		}
-		
+	addOnecatalogName (blog) {
+		var key = blog.difference;
+
+		return oneCatalog[key] || '';
 	}
 }

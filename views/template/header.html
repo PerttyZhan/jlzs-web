@@ -4,15 +4,16 @@
 		<meta charset="utf-8">
 		<meta content="initial-scale=1.0, width=device-width" name="viewport">
 		<meta content="webkit" name="renderer">
-		<meta content="<%=des%>" name="description">
-		<meta content="<%=keywords%>" name="keywords">
-		<title><%= title %></title>
+		<meta content="<%=website.web_description%>" name="description">
+		<meta content="<%=website.key_word%>" name="keywords">
+		<title><%= website.web_title %></title>
 		<link href="/images/WechatIMG267.png" rel="icon" sizes="196x196">
 		<link href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
 		<link href="https://cdn.bootcss.com/minireset.css/0.0.2/minireset.min.css" rel="stylesheet">
 		<link href="https://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
 		<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
-		<link rel='stylesheet' href='/stylesheets/style.css' />
+
+		<link href="/stylesheets/style.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
 		<header class="header">
@@ -26,10 +27,18 @@
 				<div class="header-menu" id="headerMenu">
 					<div class="nav">
 						<a href="/" <% if (key === 'home') {%> class="active" <%}%> >首页</a>
-						<a href="/news" <% if (key === 'news') {%> class="active" <%}%> >资讯</a>
-						<a href="/report" <% if (key === 'report') {%> class="active" <%}%> >报道</a>
-						<a href="/activity" <% if (key === 'activity') {%> class="active" <%}%> >活动</a>
+						<a href="/information" <% if (key === 'information') {%> class="active" <%}%> >产业</a>
+						<a href="/report" <% if (key === 'report') {%> class="active" <%}%> >特写</a>
+						<a href="/activities" <% if (key === 'activities') {%> class="active" <%}%> >活动</a>
 						<!-- <a href="/about" <% if (key === 'about') {%> class="active" <%}%> >关于我们</a> -->
+					</div>
+				</div>
+				<div class="header-search">
+					<div class="search">
+						<input type="text" class="search-input" placeholder="搜 索" id="searchInput" />
+						<div class="search-icon" id="searchBtn">
+							<i class="ion-ios-search"></i>
+						</div>
 					</div>
 				</div>
 				<div class="header-btn">

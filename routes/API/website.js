@@ -3,14 +3,26 @@ var Q = require('q');
 var config = require('../config');
 
 module.exports = {
-	fetchOne (name) {
+	fetchAll () {
 		var deferred = Q.defer();
+
 		request
-			.get(config.api_url + `/website/${name}`)
+			.get(config.api_url + '/website')
 			.end((err, res) => {
-				res || (res = {})
-				deferred.resolve(res.body || {});
+				deferred.resolve(res.body);
 			})
+		return deferred.promise;
+	},
+	fetchCarousel (choice) {
+		var deferred = Q.defer();
+
+		request
+			.get(config.api_url + '/web_carousel')
+			.query({choice: choice})
+			.end((err, res) => {
+				deferred.resolve(res.body)
+			})
+
 		return deferred.promise;
 	}
 }

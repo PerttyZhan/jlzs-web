@@ -10,7 +10,6 @@ var lessMiddleware = require('less-middleware');
 var app = express();
 var router = require('./routes');
 
-router(app);
 
 // ejs.open = '{{';
 // ejs.close = '}}';
@@ -27,6 +26,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+
+router(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

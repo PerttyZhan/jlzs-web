@@ -3,17 +3,22 @@ var Q = require('q');
 var config = require('../config');
 
 module.exports = {
-	fetchTagList (per_page, page, search, sort) {
+	fetchHotestTag () {
 		var deferred = Q.defer();
 		request
-			.get(config.api_url + '/tag')
-			.query({per_page: per_page})
-			.query({page: page})
-			.query({search: search})
-			.query({sort: sort})
+			.get(config.api_url + '/web_index_hottag')
 			.end((err, res) => {
-				res || (res = {})
-				deferred.resolve(res.body || {});
+				deferred.resolve(res.body);
+			})
+		return deferred.promise;
+	},
+	fetchTagBlog (params) {
+		var deferred = Q.defer();
+		request
+			.get(config.api_url + '/search_all')
+			.query(params)
+			.end((err, res) => {
+				deferred.resolve(res.body);
 			})
 		return deferred.promise;
 	}

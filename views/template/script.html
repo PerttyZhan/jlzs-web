@@ -3,6 +3,9 @@
 <script type="text/javascript">
 	$(function () {
 		var $headMenu = $('#headerMenu');
+		var $searchBtn = $('#searchBtn');
+		var $searchInput = $('#searchInput');
+
 		$("img").lazyload({effect: "fadeIn", skip_invisible: true, failure_limit: 10});
 
 		$('#toggleMenu').on('click', function () {
@@ -14,5 +17,26 @@
 			}
 		})
 
+		$searchBtn.on('click', function () {
+			var value = $searchInput.val().trim();
+
+			if (!value) {
+				return ;
+			}
+
+			window.open('/search/article/' + value);
+		})
+
+		$searchInput.on('keyup', function (e) {
+			var value = $(this).val();
+
+			if (e.keyCode == 13) {
+				if (!value) {
+					return ;
+				}
+
+				window.open('/search/article/' + value);
+			}
+		})
 	})
 </script>

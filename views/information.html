@@ -5,12 +5,12 @@
 				<div class="news-main--left">
 					<div class="news-all">
 						<div class="news-types" id="searchBlog">
-							<a href="/news" <% if (!activeCatalogID) { %> class="active" <% } %> >资讯</a>
+							<a href="/information" <% if (!typeID) { %> class="active" <% } %> >资讯</a>
 							<% catalog.forEach(function(c){ %>
-								<a href="/news?sc=<%=c._id%>" 
-									<% if (c._id == activeCatalogID) { %> class="active" <% } %>
-									data-id="<%=c._id%>">
-									<%=c.name%>
+								<a href="/information/<%=c.id%>" 
+									<% if (c.id == typeID) { %> class="active" <% } %>
+									data-id="<%=c.id%>">
+									<%=c.sort%>
 								</a>
 							<% }) %>
 						</div>
@@ -28,7 +28,7 @@
 						    <div class="swiper-wrapper">
 						    	<% fancy.forEach(function(f){ %>
 							        <div  class="swiper-slide">
-							        	<a href="<%=f.link%>" target="_blank" class="swiper-blcok"><img src="<%=f.src%>" /></a>
+							        	<a href="<%=f.link%>" target="_blank" class="swiper-blcok"><img src="<%=f.src_img%>" /></a>
 							        </div>
 						        <% }) %>
 						    </div>
@@ -87,11 +87,11 @@
 				params.page = parseInt(params.page) + 1;
 
 				if ($catalog.data('id')) {
-					params.secondcatalog =  $catalog.data('id');
+					params.sort_id =  $catalog.data('id');
 				}
 
 				$.ajax({
-					url: '/news/search',
+					url: '/page',
 					data: params,
 					success: function (res) {
 						$this.replaceWith(res);

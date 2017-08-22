@@ -3,56 +3,63 @@ var Q = require('q');
 var config = require('../config');
 
 module.exports = {
-	fetchBlogList (per_page, page, search, sort, select) {
-		var deferred = Q.defer();
-		
-		console.log(per_page);
 
+	fetchLastestBlog () {
+		var deferred = Q.defer();
 		request
-			.get(config.api_url + '/blog')
-			.query({per_page: per_page})
-			.query({page: page})
-			.query({search: search})
-			.query({sort: sort})
-			.query({select: select})
+			.get(config.api_url + '/web_index_new')
 			.end((err, res) => {
-				res || (res = {})
-				deferred.resolve(res.body || {});
+				deferred.resolve(res.body);
 			})
 		return deferred.promise;
 	},
-	fetchRelativeList (id, num) {
+	fetchHotestBlog () {
 		var deferred = Q.defer();
-
 		request
-			.get(config.api_url + `/blog/${id}/relative`)
+			.get(config.api_url + '/web_index_hot')
 			.end((err, res) => {
-				console.log('bbbb')
-				deferred.resolve(res.body || []);
+				deferred.resolve(res.body);
 			})
-
 		return deferred.promise;
 	},
-	fetchOne (id) {
+	fetchBlog (params) {
 		var deferred = Q.defer();
-
 		request
-			.get(config.api_url + `/blog/${id}`)
+			.get(config.api_url + '/web')
+			.query(params)
 			.end((err, res) => {
-				res || (res = {})
-				deferred.resolve(res.body || {});
+				deferred.resolve(res.body);
 			})
-
 		return deferred.promise;
 	},
-	updateBlogRead (id) {
-
+	searchBlog (params) {
+		var deferred = Q.defer();
 		request
-			.post(config.api_url + `/blog/${id}/inc`)
-			.send({api_token: 'jlzs', name: 'reads'})
+			.get(config.api_url + '/web_search')
+			.query(params)
 			.end((err, res) => {
-				// if (err) {console.log(err)}
-					// console.log(res.status)
+				deferred.resolve(res.body);
 			})
+		return deferred.promise;
+	},
+	fetchOneBlog (id, params) {
+		var deferred = Q.defer();
+		request
+			.get(config.api_url + `/web/${id}`)
+			.query(params)
+			.end((err, res) => {
+				deferred.resolve(res.body);
+			})
+		return deferred.promise;
+	},
+	fetchOneRelativeBlog (id, params) {
+		var deferred = Q.defer();
+		request
+			.get(config.api_url + `/web_about/${id}`)
+			.query(params)
+			.end((err, res) => {
+				deferred.resolve(res.body);
+			})
+		return deferred.promise;
 	}
 }

@@ -4,33 +4,24 @@ const fs = require('fs');
 const path = require('path');
 
 const templatePath = path.resolve(__dirname, '../../views/template');
-const news_tmp = fs.readFileSync(templatePath + '/newsBlog.ejs', 'utf-8');
-const activity_tmp = fs.readFileSync(templatePath + '/activity.ejs', 'utf-8');
+
+const infor_tmp = fs.readFileSync(templatePath + '/informationBlog.ejs', 'utf-8');
+const report_tmp = fs.readFileSync(templatePath + '/reportBlog.ejs', 'utf-8');
+const activitiesBlog_tmp = fs.readFileSync(templatePath + '/activity.ejs', 'utf-8');
+
 const tag_tmp = fs.readFileSync(templatePath + '/tagBlog.ejs', 'utf-8');
 
 module.exports = {
-	newsTemplate (blog) {
-		if (blog.data && blog.data.length ) {
-			return ejs.render(news_tmp, blog)
-		}
-		else {
-			return '';
-		}
+	inforTemplate (blog) {
+		return ejs.render(infor_tmp, blog)
+	},
+	reportTemplate (blog) {
+		return ejs.render(report_tmp, blog)
 	},
 	activityTemplate (blog) {
-		if (blog.data && blog.data.length ) {
-			return ejs.render(activity_tmp, blog)
-		}
-		else {
-			return '';
-		}
+		return ejs.render(activitiesBlog_tmp, blog)
 	},
 	tagTemplate (blog) {
-		if (blog.data && blog.data.length ) {
-			return ejs.render(tag_tmp, blog)
-		}
-		else {
-			return '';
-		}
+		return ejs.render(tag_tmp, blog)
 	}
 }

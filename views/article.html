@@ -4,16 +4,16 @@
 			<div class="container">
 				<div class="article--left">
 					<p class="article__catalog">
-						<span><%=blog.onecatalogname%></span>
-						<span><%=blog.secondcatalog.name%></span>
+						<span><%=blog.typeName%></span>
+						<span><%=blog.sort.sort%></span>
 					</p>
 					<p class="article__title" id="blog-title">
-						<%=blog.title%>
+						<%=blog.headline%>
 					</p>
 					<div class="article__other">
 						<p><%=blog.created_at%></p>
 						<p>
-							<span><%=blog.creator%></span>
+							<span><%=blog.name%></span>
 						</p>
 					</div>
 
@@ -21,14 +21,14 @@
 						<img data-original="<%=blog.img_src%>" class="lazy" alt="<%=blog.title%>" id="blog-img">
 					</div>
 					<div class="article-sm-title">
-						<%=blog.s_title%>
+						<%=blog.title%>
 					</div>
 					<div class="article__content">
 						<%-blog.content%>
 					</div>
 
 					<div class="article__tags">
-				    	<% blog.tags.forEach(function(t){ %>
+				    	<% blog.tag.forEach(function(t){ %>
 				    		<span><%=t.name%></span>
 				    	<% }) %>
 					</div>
@@ -39,10 +39,10 @@
 						</p>
 						<div class="relative-blog">
 				    		<% relativeBlog.forEach(function(b){ %>
-								<a href="/article/<%=b._id%>" class="relative-blog-item">
+								<a href="/<%=b.difference%>/article/<%=b.id%>" class="relative-blog-item">
 									<img data-original="<%=b.img_src%>" />
 									<p class="relative-blog-title">
-										<span><%=b.title%></span>
+										<span><%=b.headline%></span>
 									</p>
 								</a>
 				    		<% }) %>
@@ -56,17 +56,7 @@
 						<p class="hot-title">
 							精彩推荐
 						</p>
-						<div class="swiper-container">
-						    <div class="swiper-wrapper">
-						    	<% fancy.forEach(function(f){ %>
-							        <div  class="swiper-slide">
-							        	<a href="<%=f.link%>" target="_blank" class="swiper-blcok"><img src="<%=f.src%>" /></a>
-							        </div>
-						        <% }) %>
-						    </div>
-						    <!-- 如果需要分页器 -->
-						    <div class="swiper-pagination"></div>
-						</div>
+						<% include template/fancy.html %>
 					</div>
 					
 					<div class="hot-news">
