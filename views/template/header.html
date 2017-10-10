@@ -3,53 +3,59 @@
 	<head>
 		<meta charset="utf-8">
 		<meta content="initial-scale=1.0, width=device-width" name="viewport">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta content="webkit" name="renderer">
 		<meta content="<%=website.web_description%>" name="description">
 		<meta content="<%=website.key_word%>" name="keywords">
 		<title><%= website.web_title %></title>
 		<link href="/images/WechatIMG267.png" rel="icon" sizes="196x196">
 		<link href="https://cdn.bootcss.com/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
-		<link href="https://cdn.bootcss.com/minireset.css/0.0.2/minireset.min.css" rel="stylesheet">
 		<link href="https://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
 		<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
-
+		
 		<link href="/stylesheets/style.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
-		<header class="header">
+		<header class="header" id="header">
 			<div class="container">
 				<div class="header-logo">
-					<a href="/" class="logo">
-						<img src="/images/WechatIMG261.png" alt="接力浙商">
+					<a href="/" class="logo" title="接力浙商网">
+						<img src="/images/WechatIMG261.png" alt="接力浙商网">
 					</a>
 					
 				</div>
 				<div class="header-menu" id="headerMenu">
 					<div class="nav">
-						<a href="/" <% if (key === 'home') {%> class="active" <%}%> >首页</a>
-						<a href="/information" <% if (key === 'information') {%> class="active" <%}%> >产业</a>
-						<a href="/report" <% if (key === 'report') {%> class="active" <%}%> >特写</a>
-						<a href="/activities" <% if (key === 'activities') {%> class="active" <%}%> >活动</a>
-						<!-- <a href="/about" <% if (key === 'about') {%> class="active" <%}%> >关于我们</a> -->
-					</div>
-				</div>
-				<div class="header-search">
-					<div class="search">
-						<input type="text" class="search-input" placeholder="搜 索" id="searchInput" />
-						<div class="search-icon" id="searchBtn">
-							<i class="ion-ios-search"></i>
-						</div>
+						<a href="/" title="首页" <% if (key === 'home') {%> class="active" <%}%>>首页</a>
+						<a href="/information" title="产业" <% if (key === 'information') {%> class="active" <%}%> >产业</a>
+						<a href="/report" title="特写" <% if (key === 'report') {%> class="active" <%}%> >特写</a>
+						<a href="/activities" title="活动" <% if (key === 'activities') {%> class="active" <%}%> >活动</a>
+						<a href="/video" title="视频" <% if (key === 'video') {%> class="active" <%}%> >视频</a>
 					</div>
 				</div>
 				<div class="header-btn">
-					<a href="#" class="btn toggleMenu" id="toggleMenu"><i class="ion-android-menu"></i></a>
-					<a class="gzh">
+					<div class="header-search" id="headerSearch">
+						<div class="search">
+							<input type="text" class="search-input" placeholder="搜 索" id="searchInput" />
+							<div class="search-icon" id="searchBtn">
+								<i class="ion-ios-search"></i>
+							</div>
+						</div>
+					</div>
+				
+					<span href="#" class="btn toggleSearch" id="toggleSearch" title="搜索">
+						<i class="ion-ios-search"></i>
+					</span>
+					<span href="#" class="btn toggleMenu" id="toggleMenu" title="展开">
+						<i class="ion-android-menu"></i>
+					</span>
+					<span class="gzh" title="微信公众号">
 						<span>微信公众号</span>
 						<div class="gzh-img">
 							<img src="/images/WechatIMG942.jpeg">
 						</div>
-					</a>
-					<a href="https://jinshuju.net/f/KYgMEK" target="_blank" class="btn report">申请报道</a>
+					</span>
+					<a href="https://jinshuju.net/f/KYgMEK" title="申请报道" target="_blank" class="btn report">申请报道</a>
 				</div>
 			</div>
 		</header>

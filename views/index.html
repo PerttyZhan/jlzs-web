@@ -5,7 +5,9 @@
 			    <div class="swiper-wrapper">
 			    	<% banner.forEach(function(b){ %>
 				        <div  class="swiper-slide">
-				        	<a href="<%=b.link%>" target="_blank" class="swiper-blcok"><img src="<%=b.src_img%>" /></a>
+				        	<a href="<%=b.link%>" title="接力浙商网" target="_blank" class="swiper-blcok">
+				        		<img src="<%=b.src_img%>"/>
+			        		</a>
 				        </div>
 			        <% }) %>
 			    </div>
@@ -13,33 +15,75 @@
 			    <div class="swiper-pagination"></div>
 			    
 			    <!-- 如果需要导航按钮 -->
-			    <div class="swiper-button-prev"></div>
-			    <div class="swiper-button-next"></div>
+			    <div class="swiper-button-prev">
+			    	<i class="ion-ios-arrow-left"></i>
+			    </div>
+			    <div class="swiper-button-next">
+			    	<i class="ion-ios-arrow-right"></i>
+			    </div>
 			</div>
 		</div>
 
 		<div class="lastnews">
 			<div class="container">
-				<div class="banner-left" id="bannerLeft">
-					<%if (lastBlog.length) {%>
-						<a target="_blank" href="/<%=lastBlog[0].difference%>/<%=lastBlog[0].id%>" class="lastnews-show" >
-							<img src="<%=lastBlog[0].img_src%>" class="lastnews-show__img"/>
-							<div class="lastnews-show__des">
-								<p class="lastnews-show__title"><%=lastBlog[0].headline%></p>
-							</div>
-						</a>
-					<% } %>
+				<div class="lastnews-left">
+					<div class="swiper-container2">
+						<div class="swiper-wrapper">
+					    	<% fiveAc.forEach(function(b){ %>
+						        <div  class="swiper-slide">
+						        	<a href="/activities/article/<%=b.id%>" title="<%=b.title%>" target="_blank" class="swiper-face-blcok">
+						        		<img src="<%=b.cover_image%>" alt="<%=b.title%>" >
+					        		</a>
+					        		<h2 class="swiper-title">
+					        			<%=b.title%>
+					        		</h2>
+						        </div>
+					        <% }) %>
+					    </div>
+
+					    <!-- 如果需要导航按钮 -->
+					    <!-- <div class="swiper-button-prev">
+					    	<i class="ion-ios-arrow-left"></i>
+					    </div>
+					    <div class="swiper-button-next">
+					    	<i class="ion-ios-arrow-right"></i>
+					    </div> -->
+			    
+					    <!-- 如果需要分页器 -->
+					    <!-- <div class="swiper-pagination2"></div> -->
+				    </div>
 				</div>
-				<div class="banner-right" id="bannerRight">
-					<div class="lastnews-list">
-						<p class="lastnews-list__title">最新消息</p>
-			    		<% lastBlog.forEach(function(b){ %>
-							<a href="/<%=b.difference%>/<%=b.id%>" target="_blank" class="lastnews-list__item" 
-								data-img="<%=b.img_src%>" 
-								data-id="<%=b.id%>"
-								data-title="<%=b.headline%>">
-								<p class="lastnews-list__item-title"><%=b.headline%></p>
-								<p class="lastnews-list__item-s_title"><%=b.title%></p>
+
+				<div class="lastnews-right">
+					<div class="lastnews-right-cell">
+			    		<% twoInfor.forEach(function(c){ %>	
+			    			<a class="lastnews-right-item" target="_blank" title="<%=c.headline%>" href="/<%=c.difference%>/article/<%=c.id%>">
+								<div class="lastnews-pos">
+									<img src="<%=c.img_src%>" alt="<%=c.headline%>">
+									<% if (c.sort) { %>
+										<span class="lastnews-type"><%=c.sort.sort%></span>
+									<% } %>
+									<h4 class="lastnews-title">
+										<%=c.headline%>
+									</h4>
+								</div>
+							</a>
+			       		<% }) %>
+						
+					</div>
+
+					<div class="lastnews-right-cell">
+						<% twoReport.forEach(function(c){ %>	
+			    			<a class="lastnews-right-item" target="_blank" title="<%=c.headline%>" href="/<%=c.difference%>/article/<%=c.id%>">
+								<div class="lastnews-pos">
+									<img src="<%=c.img_src%>" alt="<%=c.headline%>">
+									<% if (c.sort) { %>
+										<span class="lastnews-type"><%=c.sort.sort%></span>
+									<% } %>
+									<h4 class="lastnews-title">
+										<%=c.headline%>
+									</h4>
+								</div>
 							</a>
 			       		<% }) %>
 					</div>
@@ -56,7 +100,7 @@
 							产业
 							<div class="news-module__type">
 			    				<% newsCatalog.forEach(function(c){ %>
-									<a href="/information/<%=c.id%>" target="_blank"><%=c.name%></a>
+									<a href="/information/<%=c.id%>" title="<%=c.name%>" target="_blank"><%=c.name%></a>
 			       				<% }) %>
 							</div>
 						</div>
@@ -64,12 +108,14 @@
 			    			<% if (c.blog.length) { %>
 								<div class="news-module__list">
 									<div class="news-module__item">
-										<a href="/information/article/<%=c.blog[0].id%>" target="_blank" class="news-module--left">
+										<a href="/information/article/<%=c.blog[0].id%>" title="<%=c.blog[0].headline%>" target="_blank" class="news-module--left">
 											<img class="new-img lazy" data-original="<%=c.blog[0].img_src%>">
 											<div class="news--hot-catalog"><%=c.name%></div>
 										</a>
 										<div class="news-module--right">
-											<a class="new-title" href="/information/article/<%=c.blog[0].id%>" target="_blank"><%=c.blog[0].headline%></a>
+											<a href="/information/article/<%=c.blog[0].id%>" title="<%=c.blog[0].headline%>" target="_blank">
+												<h3 class="new-title"><%=c.blog[0].headline%></h3>
+											</a>
 											<div class="news-sm-title">
 												<%=c.blog[0].title%>
 											</div>
@@ -78,7 +124,7 @@
 													<%=c.blog[0].name %>
 												</span>
 												<span>
-													<%=c.blog[0].created_at%>
+													<%=c.blog[0].formattimer%>
 												</span>
 											</p>
 										</div>
@@ -88,11 +134,16 @@
 				    					<% c.blog.forEach(function(b, i){ %>
 			    							<% if (i) { %>
 												<li>
-													<a href="/information/article/<%=b.id%>" target="_blank"><%=b.headline %></a>
+													<a href="/information/article/<%=b.id%>" title="<%=b.headline %>" target="_blank"><%=b.headline %></a>
 												</li>
 											<% } %>
 				       					<% }) %>
 									</ul>
+									<% if ( c.blog.length >= 2 ) { %>
+										<a href="/information/<%=c.id%>" class="customer-more" title="更多" target="_blank">
+											更多
+										</a>
+									<% } %>
 								</div>
 			       			<% } %>
 			       		<% }) %>
@@ -103,7 +154,7 @@
 							特写
 							<div class="news-module__type">
 								<% reportCatalog.forEach(function(c){ %>
-									<a href="/report/<%=c.id%>" target="_blank"><%=c.name%></a>
+									<a href="/report/<%=c.id%>" title="<%=c.name%>" target="_blank"><%=c.name%></a>
 			       				<% }) %>
 							</div>
 						</div>
@@ -112,12 +163,14 @@
 			    			<% if (c.blog.length) { %>
 								<div class="news-module__list">
 									<div class="news-module__item">
-										<a href="/report/article/<%=c.blog[0].id%>" target="_blank" class="news-module--left">
+										<a href="/report/article/<%=c.blog[0].id%>" title="<%=c.blog[0].headline%>" target="_blank" class="news-module--left">
 											<img class="new-img lazy" data-original="<%=c.blog[0].img_src%>">
 											<div class="news--hot-catalog"><%=c.name%></div>
 										</a>
 										<div class="news-module--right">
-											<a class="new-title" href="/report/article/<%=c.blog[0].id%>" target="_blank"><%=c.blog[0].headline%></a>
+											<a href="/report/article/<%=c.blog[0].id%>" title="<%=c.blog[0].headline%>" target="_blank">		
+												<h3 class="new-title"><%=c.blog[0].headline%></h3>
+											</a>
 											<div class="news-sm-title">
 												<%=c.blog[0].title%>
 											</div>
@@ -126,7 +179,7 @@
 													<%=c.blog[0].name %>
 												</span>
 												<span>
-													<%=c.blog[0].created_at%>
+													<%=c.blog[0].formattimer%>
 												</span>
 											</p>
 										</div>
@@ -136,11 +189,14 @@
 				    					<% c.blog.forEach(function(b, i){ %>
 			    							<% if (i) { %>
 												<li>
-													<a href="/report/article/<%=b.id%>" target="_blank"><%=b.headline %></a>
+													<a href="/report/article/<%=b.id%>" title="<%=b.headline%>" target="_blank"><%=b.headline %></a>
 												</li>
 											<% } %>
 				       					<% }) %>
 									</ul>
+									<% if ( c.blog.length >= 2 ) { %>
+										<a href="/report/<%=c.id%>" class="customer-more" target="_blank">更多</a>
+									<% } %>
 								</div>
 			       			<% } %>
 			       		<% }) %>
@@ -152,7 +208,7 @@
 							活动
 							<div class="news-module__type">
 								<% activityCatalog.forEach(function(c){ %>
-									<a href="/activities/<%=c._id%>" target="_blank"><%=c.name%></a>
+									<a href="/activities/<%=c.id%>" title="<%=c.name%>" target="_blank"><%=c.name%></a>
 			       				<% }) %>
 							</div>
 						</div>
@@ -161,21 +217,23 @@
 			    			<% if (c.blog.length) { %>
 								<div class="news-module__list">
 									<div class="news-module__item">
-										<a href="/activities/article/<%=c.blog[0].id%>" target="_blank" class="news-module--left">
-											<img class="new-img lazy" data-original="<%=c.blog[0].img_src%>">
-											<div class="news--hot-catalog"><%=c.catalog.name%></div>
+										<a href="/activities/article/<%=c.blog[0].id%>" title="<%=c.blog[0].headline%>" target="_blank" class="news-module--left">
+											<img class="new-img lazy" data-original="<%=c.blog[0].cover_image%>">
+											<div class="news--hot-catalog"><%=c.name%></div>
 										</a>
 										<div class="news-module--right">
-											<a class="new-title" href="/activities/article/<%=c.blog[0].id%>" target="_blank"><%=c.blog[0].headline%></a>
+											<a href="/activities/article/<%=c.blog[0].id%>" title="<%=c.blog[0].title%>" target="_blank">
+												<h3 class="new-title"><%=c.blog[0].title%></h3>
+											</a>
 											<div class="news-sm-title">
-												<%=c.blog[0].title%>
+												<%=c.blog[0].abstract%>
 											</div>
 											<p class="new-date">
 												<span class="author">
-													<%=c.blog[0].name %>
+													<%=c.blog[0].sponsor %>
 												</span>
 												<span>
-													<%=c.blog[0].created_at%>
+													<%=c.blog[0].formattimer%>
 												</span>
 											</p>
 										</div>
@@ -185,11 +243,14 @@
 				    					<% c.blog.forEach(function(b, i){ %>
 			    							<% if (i) { %>
 												<li>
-													<a href="/activities/article/<%=b.id%>" target="_blank"><%=b.headline %></a>
+													<a href="/activities/article/<%=b.id%>" title="<%=b.title%>" target="_blank"><%=b.title %></a>
 												</li>
 											<% } %>
 				       					<% }) %>
 									</ul>
+									<% if ( c.blog.length >= 2 ) { %>
+										<a href="/activities/<%=c.id%>" target="_blank" class="customer-more">更多</a>
+									<% } %>
 								</div>
 			       			<% } %>
 			       		<% }) %>
@@ -215,6 +276,9 @@
 							<% include template/hottag.html %>
 						</div>
 					</div>
+
+					<% include template/chain.html %>
+
 				</div>
 			</div>
 		</div>
@@ -226,7 +290,40 @@
 
 		$(function () {
 
-			var mySwiper = new Swiper ('.swiper-container', {
+			var _locationHref = window.location.href;
+
+			wx.ready(function () {
+				wx.onMenuShareAppMessage({
+					title: '<%=website.web_title%>', // 分享标题
+				    desc: '<%=website.web_description%>', // 分享描述
+				    link: _locationHref, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				    imgUrl: window.location.origin + '/images/1505377457976.jpeg', // 分享图标
+				    type: '', // 分享类型,music、video或link，不填默认为link
+				    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+				    success: function () { 
+				        // 用户确认分享后执行的回调函数
+				        console.log('success')
+				    },
+				    cancel: function () { 
+				        // 用户取消分享后执行的回调函数
+				    }
+				})
+
+				wx.onMenuShareTimeline({
+					title: '<%=website.web_title%>', // 分享标题
+				    link: _locationHref, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				    imgUrl: window.location.origin + '/images/1505377457976.jpeg', // 分享图标
+				    success: function () { 
+				        // 用户确认分享后执行的回调函数
+				        console.log('success')
+				    },
+				    cancel: function () { 
+				        // 用户取消分享后执行的回调函数
+				    }
+				})
+			})
+
+			new Swiper ('.swiper-container', {
 			    loop: true,
 			    autoplay: 3000,
 			    lazyLoading : true,
@@ -241,20 +338,15 @@
 			    scrollbarHide: true
 			}) 
 
-			var $bannerRight = $('#bannerRight');
-			var $bannerLeft = $('#bannerLeft');
-
-			$('.lastnews-list__item').hover(function () {
-				var $this = $(this);
-				var data = $this.data();
-
-				$this.addClass('active').siblings().removeClass('active');
-				
-				$bannerLeft.find('.lastnews-show').attr('href', '/article/'+data.id);
-				$bannerLeft.find('.lastnews-show__img').attr('src', data.img);
-				$bannerLeft.find('.lastnews-show__title').html(data.title);
+			new Swiper ('.swiper-container2', {
+			    loop: true,
+			    autoplay: 4000,
+			    lazyLoading : true,
+				lazyLoadingInPrevNext : true,
+			    // 如果需要分页器
+			    // pagination: '.swiper-pagination2',
+			    scrollbarHide: true
 			})
-
 		})
 	</script>
 </html>

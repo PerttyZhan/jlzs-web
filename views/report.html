@@ -5,9 +5,9 @@
 				<div class="news-main--left">
 					<div class="news-all">
 						<div class="news-types" id="searchBlog">
-							<a href="/report" <% if (!typeID) { %> class="active" <% } %> >报道</a>
+							<a href="/report" title="报道" <% if (!typeID) { %> class="active" <% } %> >报道</a>
 							<% catalog.forEach(function(c){ %>
-								<a href="/report/<%=c.id%>" 
+								<a href="/report/<%=c.id%>" title="<%=c.sort%>" 
 									<% if (c.id == typeID) { %> class="active" <% } %>
 									data-id="<%=c.id%>">
 									<%=c.sort%>
@@ -28,7 +28,7 @@
 						    <div class="swiper-wrapper">
 						    	<% fancy.forEach(function(f){ %>
 							        <div  class="swiper-slide">
-							        	<a href="<%=f.link%>" target="_blank" class="swiper-blcok"><img src="<%=f.src_img%>" /></a>
+							        	<a href="<%=f.link%>" title="精彩推荐" target="_blank" class="swiper-blcok"><img src="<%=f.src_img%>" /></a>
 							        </div>
 						        <% }) %>
 						    </div>
@@ -91,7 +91,7 @@
 				}
 
 				$.ajax({
-					url: '/report/search',
+					url: '/page',
 					data: params,
 					success: function (res) {
 						$this.replaceWith(res);

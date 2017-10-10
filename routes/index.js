@@ -1,5 +1,5 @@
 var Q = require('q');
-
+var Moment = require('moment');
 var util = require('./util');
 var config = require('./config');
 
@@ -7,27 +7,36 @@ var website = require('./API/website');
 var blog = require('./API/blog');
 var secondCatalog = require('./API/secondCatalog');
 var tag = require('./API/tag');
+var video = require('./API/video');
+var qrcode = require('./API/qrcode')
 
 var templates = require('./API/template');
 
 module.exports = function (app) {
 	
 	app.route('/')
+		.post((req, res) => {
+			console.log(req.body)
+		})
 		.get((req, res) => {
 			Q.all([
 				website.fetchAll(),
 				website.fetchCarousel('index'),
 
-				blog.fetchLastestBlog(),
 				blog.fetchHotestBlog(),
 				tag.fetchHotestTag(),
 
 				secondCatalog.getTypesBlog('information'),
 				secondCatalog.getTypesBlog('report'),
-				secondCatalog.getTypesBlog('activity'),
+				secondCatalog.getTypesBlog('newactivities'),
 				secondCatalog.getType('about'),
+
+				blog.fetchTwoArticle('information'),
+				blog.fetchTwoArticle('report'),
+				blog.fetchIndexFiveActivity(),
+				website.fetchChain()
 			])
-			.spread((website, indexCarousel, lastBlog, hotBlog, hotTag, newsCatalog, reportCatalog, activityCatalog, aboutType) => {
+			.spread((website, indexCarousel, hotBlog, hotTag, newsCatalog, reportCatalog, activityCatalog, aboutType, twoInfor, twoReport, fiveAc, chains) => {
 				var websiteJson = {};
 
 				for (var i = 0, l = website.length; i < l; i++) {
@@ -39,13 +48,16 @@ module.exports = function (app) {
   					website: websiteJson,
 
   					banner: indexCarousel.data,
-  					lastBlog: lastBlog,
   					hotBlog: hotBlog,
   					hotTag: hotTag,
 
   					newsCatalog: newsCatalog,
   					reportCatalog: reportCatalog,
   					activityCatalog: activityCatalog,
+  					twoReport: twoReport,
+  					twoInfor: twoInfor,
+  					fiveAc: fiveAc,
+  					chains: chains,
 
   					aboutType: aboutType
 				});
@@ -67,12 +79,14 @@ module.exports = function (app) {
 			])
 			.spread((website, fancy, blog, catalog, hotBlog, hotTag, aboutType) => {
 
-				var html = templates.inforTemplate(blog);
+				var html;
 				var websiteJson = {};
 
 				for (var i = 0, l = website.length; i < l; i++) {
 					websiteJson[website[i].name] = website[i].values;
 				}
+				
+				html = templates.inforTemplate(blog);
 
 				res.render('information', {
 					key: 'information',
@@ -85,7 +99,7 @@ module.exports = function (app) {
   					catalog: catalog,
   					blogHtml: html,
   					typeID: null,
-  					aboutType: aboutType
+  					aboutType: aboutType,
 				})
 			})
 
@@ -104,6 +118,7 @@ module.exports = function (app) {
 				tag.fetchHotestTag(),
 
 				secondCatalog.getType('about'),
+
 			])
 			.spread((website, fancy, blog, catalog, hotBlog, hotTag, aboutType) => {
 
@@ -125,7 +140,7 @@ module.exports = function (app) {
   					catalog: catalog,
   					blogHtml: html,
   					typeID: null,
-  					aboutType: aboutType
+  					aboutType: aboutType,
 				})
 			})
 
@@ -138,7 +153,8 @@ module.exports = function (app) {
 
 				secondCatalog.getTypesBlog('about'),
 
-				secondCatalog.getType('about'),
+				secondCatalog.getType('about')
+				// website.fetchChain()
 			])
 			.spread((website, catalogBlog, aboutType) => {
 				var websiteJson = {};
@@ -150,10 +166,8 @@ module.exports = function (app) {
 				res.render('about', {
 					key: 'about',
 					website: websiteJson,
-
 					catalog: catalogBlog,
-
-					aboutType: aboutType
+					aboutType: aboutType,
 				})
 			})
 		})
@@ -167,18 +181,43 @@ module.exports = function (app) {
 				website.fetchAll(),
 				website.fetchCarousel('activities'),
 
-				blog.fetchBlog({choice: 'activities'}),
-				secondCatalog.getType('activities'),
+				blog.fetchBlog({choice: 'newactivities'}),
+				secondCatalog.getType('newactivities'),
 
 				secondCatalog.getType('about'),
+
 			])
 			.spread((website, activity, blog, catalog, aboutType) => {
+
 				var websiteJson = {};
-				var html = templates.activityTemplate(blog);
+				var html, blogData = blog.data, address, blogOne;
 
 				for (var i = 0, l = website.length; i < l; i++) {
 					websiteJson[website[i].name] = website[i].values;
 				}
+
+				for (var i = 0, l = blogData.length; i < l; i++) {
+					address = '';
+					blogOne = blogData[i];
+					if (blogOne.province_id) {
+						address += blogOne.province.name;
+					}
+					if (blogOne.city_id) {
+						address += blogOne.city.name;
+					}
+					if ( Moment(blogOne.end_time).isBefore(new Date()) ) {
+						blogOne.state = -1
+					}
+					else if ( Moment(blogOne.start_time).isAfter(new Date() ) ) {
+						blogOne.state = 1
+					}
+					else {
+						blogOne.state = 0
+					}
+					address += blogOne.location;
+				}
+
+				html = templates.activityTemplate(blog);
 
 				res.render('activities', {
 					key: 'activities',
@@ -201,23 +240,45 @@ module.exports = function (app) {
 			var params = req.params;
 
 			if (params.choice === 'activities') {
+				params.choice = 'newactivities';
 				Q.all([
 					website.fetchAll(),
 					website.fetchCarousel('activities'),
 
 					blog.fetchBlog(params),
-					secondCatalog.getType('activities'),
+					secondCatalog.getType('newactivities'),
 
 					secondCatalog.getType('about'),
 				])
 				.spread((website, activity, blog, catalog, aboutType) => {
 					var websiteJson = {};
-					var html = templates.activityTemplate(blog);
+					var html, blogData = blog.data, address, blogOne;
 
 					for (var i = 0, l = website.length; i < l; i++) {
 						websiteJson[website[i].name] = website[i].values;
 					}
+					for (var i = 0, l = blogData.length; i < l; i++) {
+						address = '';
+						blogOne = blogData[i];
+						if (blogOne.province_id) {
+							address += blogOne.province.name;
+						}
+						if (blogOne.city_id) {
+							address += blogOne.city.name;
+						}
+						if ( Moment(blogOne.end_time).isBefore(new Date()) ) {
+							blogOne.state = -1
+						}
+						else if ( Moment(blogOne.start_time).isAfter(new Date() ) ) {
+							blogOne.state = 1
+						}
+						else {
+							blogOne.state = 0
+						}
+						address += blogOne.location;
+					}
 
+					html = templates.activityTemplate(blog);
 					res.render('activities', {
 						key: 'activities',
 	  					website: websiteJson,
@@ -229,6 +290,7 @@ module.exports = function (app) {
 	  					blogHtml: html,
 
 	  					aboutType: aboutType,
+
 					})
 				})
 			}
@@ -246,15 +308,18 @@ module.exports = function (app) {
 				])
 				.spread((website, fancy, blog, catalog, hotBlog, hotTag, aboutType) => {
 
-					var templateFn ;
+					var templateFn, websiteJson = {}, html = '' ;
+
 					if (params.choice == 'information') {
 						templateFn = templates.inforTemplate;
 					}
 					else if (params.choice == 'report') {
 						templateFn = templates.reportTemplate;
 					}
-					var websiteJson = {};
-					var html = templateFn(blog);
+
+					if (templateFn) {
+						html = templateFn(blog);
+					}
 
 					for (var i = 0, l = website.length; i < l; i++) {
 						websiteJson[website[i].name] = website[i].values;
@@ -281,10 +346,19 @@ module.exports = function (app) {
 	app.route('/page')
 		.get((req, res) => {
 			var query = req.query;
+			var templateFn;
+
+			if (query.choice == 'information') {
+				templateFn = templates.inforTemplate;
+			}
+			else if (query.choice == 'report') {
+				templateFn = templates.reportTemplate;
+			}
 
 			blog.fetchBlog(query)
 				.then(data => {
-					var html = templates.newsTemplate(data.body);
+					util.formatTimer(data.data)
+					var html = templateFn(data);
 					res.send(html);
 				})
 
@@ -325,27 +399,28 @@ module.exports = function (app) {
   					blogHtml: html,
   					tag_id: params.tag_id,
   					diff: params.difference,
-  					aboutType: aboutType
+  					aboutType: aboutType,
+
 				})
 			})
 		})
+
 	app.route('/tag/search/:tag_id/:difference')
 		.get((req, res) => {
 			var params = req.params;
 			var query = req.query;
 
 			var json = Object.assign(query, params);
-
-			tag.fetchTagBlog(params)
+			
+			tag.fetchTagBlog(json)
 				.then(data => {
-					var html = templates.tagTemplate(data.body);
-
+					var html = templates.tagTemplate(data);
 					res.send(html)
 				})
 		})
 
 
-	app.route('/search/article/:search')
+	app.route('/search/hole/:search')
 		.get((req, res) => {
 			var params = req.params;
 
@@ -378,7 +453,8 @@ module.exports = function (app) {
   					blog: blog,
   					blogHtml: html,
   					search: params.search,
-  					aboutType: aboutType
+  					aboutType: aboutType,
+
 				})
 			})
 
@@ -391,9 +467,9 @@ module.exports = function (app) {
 
 			var json = Object.assign(query, params);
 
-			blog.searchBlog(params)
+			blog.searchBlog(json)
 				.then(data => {
-					var html = templates.tagTemplate(data.body);
+					var html = templates.tagTemplate(data);
 					res.send(html)
 				})
 		})
@@ -402,34 +478,178 @@ module.exports = function (app) {
 		.get((req, res) => {
 			var params = req.params;
 
+			if (params.choice == 'activities' || params.choice == 'newactivities') {
+				Q.all([
+					website.fetchAll(),
+
+					blog.fetchOneBlog(params.id, {choice: 'newactivities'}),
+					blog.fetchAboutAc(params.id),
+
+					secondCatalog.getType('about'),
+				])
+				.spread((website, blog, aboutAc, aboutType) => {
+					var websiteJson = {};
+
+					for (var i = 0, l = website.length; i < l; i++) {
+						websiteJson[website[i].name] = website[i].values;
+					}
+
+					// res.send(aboutAc)
+
+					res.render('show_activity',{
+						key: 'activities',
+						website: websiteJson,
+						b: blog,
+						aboutAc: aboutAc,
+						aboutType: aboutType
+					})
+				})	
+			}
+			else {
+				Q.all([
+					website.fetchAll(),
+					website.fetchCarousel('recommend'),
+					blog.fetchHotestBlog(),
+					secondCatalog.getType('about'),
+
+					blog.fetchOneBlog(params.id, {choice: params.choice}),
+					blog.fetchOneRelativeBlog(params.id, {choice: params.choice}),
+				])
+				.spread((website, fancy, hotBlog, aboutType, detailBlog, relativeBlog) => {
+					var websiteJson = {};
+
+					for (var i = 0, l = website.length; i < l; i++) {
+						websiteJson[website[i].name] = website[i].values;
+					}
+
+					detailBlog.typeName = util.addOnecatalogName(detailBlog);
+
+					res.render('article', {
+						key: 'article',
+						website: websiteJson,
+						fancy: fancy.data,
+						hotBlog: hotBlog,
+						aboutType: aboutType,
+
+						blog: detailBlog,
+						relativeBlog: relativeBlog.data,
+					})
+				})
+			}
+						
+		})
+
+	app.route('/article/like/:id')
+		.get((req, res) => {
+			var id = req.params.id;
+			var choice = req.query.choice;
+
+			blog.updateLikeBlog(id, choice)
+				.then(data => {
+					res.json(data)
+				})
+		})
+
+	app.route('/website/wx/config')
+		.get((req, res) => {
+			console.log(req.query.url);
+
+			website
+				.fetchWxConifg(req.query.url)
+				.then(data => {
+					res.json(data)
+				})
+		})
+
+	app.route('/video')
+		.get((req, res) => {
+			
 			Q.all([
 				website.fetchAll(),
-				website.fetchCarousel('recommend'),
-				blog.fetchHotestBlog(),
-				secondCatalog.getType('about'),
 
-				blog.fetchOneBlog(params.id, {choice: params.choice}),
-				blog.fetchOneRelativeBlog(params.id, {choice: params.choice})
+				secondCatalog.fetchVideoTypeBlog(),
+
+				secondCatalog.getType('about'),
 			])
-			.spread((website, fancy, hotBlog, aboutType, detailBlog, relativeBlog) => {
+			.spread((website, types, aboutType) => {
 				var websiteJson = {};
 
 				for (var i = 0, l = website.length; i < l; i++) {
 					websiteJson[website[i].name] = website[i].values;
 				}
 
-				detailBlog.typeName = util.addOnecatalogName(detailBlog);
+				// for (var i = 0, l = data.length; i < l; i++) {
+				// 	util.formatVideoTime(data[i]);
+				// }
 
-				res.render('article', {
-					key: 'article',
+				res.render('video', {
+					key: 'video',
 					website: websiteJson,
-					fancy: fancy.data,
-					hotBlog: hotBlog,
-					aboutType: aboutType,
 
-					blog: detailBlog,
-					relativeBlog: relativeBlog.data
+					videos: types,
+
+					aboutType: aboutType,
 				})
-			})			
+			})
 		})
+
+	app.route('/video/c/:id/list')
+		.get((req, res) => {
+			var params = req.params;	
+
+			Q.all([
+				website.fetchAll(),
+
+				blog.fetchVideoBlog({choice: 'movies', sort_id: params.id, per_page: 100}),
+
+				secondCatalog.getType('about'),
+			])
+			.spread((website, videos, aboutType) => {
+				var websiteJson = {};
+
+				for (var i = 0, l = website.length; i < l; i++) {
+					websiteJson[website[i].name] = website[i].values;
+				}
+
+				res.render('sortvideo', {
+					key: 'video',
+					website: websiteJson,
+
+					videos: videos,
+
+					aboutType: aboutType,
+				})
+			})
+		})
+
+	app.route('/video/:id/detail')
+		.get((req, res) => {
+			var params = req.params;
+
+			Q.all([
+				website.fetchAll(),
+
+				video.fetchOneVideo(params.id),
+
+				secondCatalog.getType('about'),
+			])
+			.spread((website, video, aboutType) => {
+				var websiteJson = {};
+
+				for (var i = 0, l = website.length; i < l; i++) {
+					websiteJson[website[i].name] = website[i].values;
+				}
+
+				res.render('videoplay', {
+					key: 'video',
+					website: websiteJson,
+
+					video: video,
+
+					aboutType: aboutType,
+				})
+			})
+		})
+
+	app.route('/qrcode').get(qrcode)
 }

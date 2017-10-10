@@ -1,9 +1,33 @@
 	
 <% data.forEach(function(b){ %>
-	<a href="/activites/article/<%=b.id%>" target="_blank" class="activity">
-		<img src="<%=b.img_src%>">
-		<div class="activity__des">
-			<p><%=b.headline%></p>
-		</div>
-	</a>
+	<div class="activity-content-item">
+		<a href="/activities/article/<%=b.id%>" title="<%=b.title%>" target="_blank" class="activity-wrap">
+			<div class="activity-face-img">
+				<img src="<%=b.cover_image%>">
+			</div>
+			<div class="activity-info">
+				<p class="activity-title"><%=b.title%></p>
+				<p class="activity-abstruc">
+					<%=b.abstract%>
+				</p>
+				<p class="activity-time">
+					<i class="ion-ios-clock-outline"></i>
+					<%=b.start_time%> - <%=b.end_time%>
+				</p>
+				<p class="activity-place">
+					<i class="ion-ios-location-outline"></i>
+					<%=b.location%>
+				</p>
+				<% if (b.state == '1') {%>
+					<span class="activity-status enroll">报名中</span>
+				<% } %>
+				<% if (b.state == '-1') {%>
+					<span class="activity-status over">已结束</span>
+				<% } %>
+				<% if (b.state == '0') {%>
+					<span class="activity-status doing">进行中</span>
+				<% } %>
+			</div>
+		</a>
+	</div>
 <% }) %>

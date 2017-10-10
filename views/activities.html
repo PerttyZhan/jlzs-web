@@ -6,7 +6,7 @@
 				    <div class="swiper-wrapper">
 				        <% banner.forEach(function(b){ %>
 					        <div  class="swiper-slide">
-				        		<a href="<%=b.link%>" target="_blank" class="swiper-blcok"><img src="<%=b.src_img%>" /></a>
+				        		<a href="<%=b.link%>" title="接力浙商网" target="_blank" class="swiper-blcok"><img src="<%=b.src_img%>" /></a>
 					        </div>
 				        <% }) %>
 				    </div>
@@ -22,22 +22,26 @@
 
 		<div class="activity-main">
 			<div class="container">
-				<div class="activity-title">
-					活动
-					<div class="activity-types">
-						<a href="/activities" <% if (!typeID) { %> class="active" <% } %>>所有</a>
-						<% catalog.forEach(function(c){ %>
-							<a href="/activities/<%=c.id%>" 
-								<% if (c.id == typeID) { %> class="active" <% } %>
-								data-id="<%=c.id%>">
-								<%=c.sort%>
-							</a>
-						<% }) %>
+					
+				<div class="activity-item">
+					<div class="activity-item-title">
+						<h3>活动</h3>
+						<div class="activity-types">
+							<a title="所有" href="/activities" <% if (!typeID) { %> class="active" <% } %>>所有</a>
+							<% catalog.forEach(function(c){ %>
+								<a href="/activities/<%=c.id%>" title="<%=c.sort%>" 
+									<% if (c.id == typeID) { %> class="active" <% } %>
+									data-id="<%=c.id%>">
+									<%=c.sort%>
+								</a>
+							<% }) %>
+						</div>
+					</div>
+					<div class="activity-content">
+						<%-blogHtml %>
 					</div>
 				</div>
-				<div class="activity-content">
-					<%-blogHtml %>
-				</div>
+
 			</div>
 		</div>
 		<% include template/footer.html %>

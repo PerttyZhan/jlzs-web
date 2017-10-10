@@ -1,8 +1,10 @@
-<footer class="footer">
+<footer class="footer" id="footer">
 	<div class="container">
 		<p class="other-links">
-			<%  aboutType.forEach(function(t){ %>
-				<a href="/about"><%=t.sort%></a>
+			<%  aboutType && aboutType.forEach(function(t, i){ %>
+				<a href="/about#<%=i%>" title="<%=t.sort%>" target="_blank">
+					<%=t.sort%>
+				</a>
 			<% }) %>
 		</p>
 		<p class="copyright">

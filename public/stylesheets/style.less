@@ -5,18 +5,23 @@
 @import './component/nav';
 @import './component/header';
 @import './component/pages';
+@import './component/swiper';
+@import './component/animated';
+@import './component/minireset';
 
 @import './page/home';
 @import './page/news';
 @import './page/activity';
 @import './page/about';
 @import './page/article';
+@import './page/video';
 
 html,body {
     min-height: 100%;
+    position: relative;
 }
 html {
-    position: relative;
+    overflow-x: hidden;
 }
 body {
     background: @body-background;
@@ -25,8 +30,13 @@ body {
     font-family: @font-family;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    margin:0 auto;
+    margin: 0 auto;
     padding-bottom: 87px;
+    overflow-x: hidden;
+
+    @media (max-width: 900px) {
+        padding-top: 50px;
+    }
 }
 
 input {
@@ -40,6 +50,10 @@ input {
 a {
     text-decoration: none;
     color: @text-color;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-user-select: none;
+    -moz-user-focus: none;
+    -moz-user-select: none;
 }
 
 .container {

@@ -7,11 +7,12 @@
 	}
 
 	.article--left {
-		width: 65%;
+		flex: 1;
 		background: #fff;
 		padding: 50px;
 	}
 	.article--right {
+		margin-left: 30px;
 		width: 30%;
 	}
 
@@ -26,6 +27,15 @@
 		> span {
 			display: inline-block;
 			margin-right: 10px;
+		}
+	}
+
+	.article__content {
+		width: 100%;
+
+		span,img,p,div,blockquote {
+			width: 100% !important;
+			max-width: 100% !important;
 		}
 	}
 
@@ -69,7 +79,7 @@
 		}
 	}
 	img {
-		width: 100%;
+		width: 100% !important;
 		height: auto;
 	}
 
@@ -81,6 +91,7 @@
 			}
 			.article--right {
 				margin-top: 20px;
+				margin-left: 0;
 				width: 100%;
 			}
 		}
@@ -109,6 +120,7 @@
 	padding: 15px 20px;
 	text-align: center;
 	> a {
+		position: relative;
 		display: inline-block;
 		font-size: 20px;
 		margin: 0 15px;
@@ -121,9 +133,8 @@
 		&.wx {
 			&:hover {
 				.wx-qr {
-					display: block;
 					opacity: 1;
-					transform: translate(50%, 20px);
+					z-index: 100;
 				}
 			}
 		}
@@ -137,7 +148,7 @@
 	}
 	.relative-blog {
  		.flexClum(@jc: flex-start ,@ai: center);
- 		margin: 0 -10px;
+ 		margin: 0 -10px -40px;
 	}
 	.relative-blog-item {
 		width: 33.333%;
@@ -166,16 +177,73 @@
 			background: rgba(0, 0, 0, .5);
 		}
 	}
+
+	@media screen {
+		@media (max-width: 900px) {
+			.relative-blog-item {
+				width: 100%;
+			}
+		}
+	}
+}
+
+.article-operate {
+ 	.flexClum(@ai: center);
+}
+
+.article-zan {
+	text-align: center;
+	position: relative;
+	> a {
+		color: #999;
+		display: inline-block;
+		transition: .2s color ease-in-out;
+		&:hover {
+			color: @primary-color;
+		}
+	}
+	i {
+		font-size: 25px;
+   	 	vertical-align: middle;
+	}
+	span {
+		font-size: 20px;
+		margin-left: 5px;
+    	vertical-align: middle;
+	}
+	small {
+		font-size: 14px;
+	}
+	.zan-animated {
+		position: absolute;
+	    font-size: 10px;
+	    color: #999;
+	    top: 50%;
+	    opacity: 0;
+	}
 }
 
 .wx-qr {
 	position: absolute;
-	top: 100%;
-	left: 0;
-	width: 200px;
-	height: 200px;
-	opacity: 0;
-	display: none;
-	transition: .2s all ease;
-	transform: translate(50%, 100px);
+    top: -200px;
+    left: 0;
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+    z-index: -1;
+    transition: .2s all;
+    transform: translate(-50%,0);
 }
+
+@media screen {
+
+	@media (max-width: 900px) {
+		.article-operate-left {
+			flex: 1;
+		}
+		.article-operate-right {
+			display: none;
+		}
+	}
+}
+

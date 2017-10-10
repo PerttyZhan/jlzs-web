@@ -1,0 +1,51 @@
+
+@swiper-btn-width: 42px;
+
+.swiper-blcok {
+	position: relative;
+	display: block;
+	width: 100%;
+	padding-top: 31.25%;
+}
+
+.swiper-face-blcok {
+	position: relative;
+	display: block;
+	width: 100%;
+	padding-top: 66.667%;
+}
+
+.swiper-title {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding: 10px 15px;
+	color: #fff;
+	background-color: rgba(0, 0, 0, .5);
+	font-size: 22px;
+    box-sizing: border-box;
+}
+
+.swiper-button-next, .swiper-button-prev {
+	background-image: none !important;
+	width: @swiper-btn-width;
+    height: @swiper-btn-width;
+    background-color: rgba(31,45,61,.11);
+    border-radius: 50%;
+    text-align: center;
+    line-height: @swiper-btn-width;
+    color: #fff;
+    > i {
+    	speak: none;
+    	font-size: 18px;
+	    font-weight: 400;
+	    font-variant: normal;
+	    text-transform: none;
+	    text-rendering: auto;
+	    line-height: 1;
+	    -webkit-font-smoothing: antialiased;
+	    -moz-osx-font-smoothing: grayscale;
+	    margin: 0 6px;
+    }
+}

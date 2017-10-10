@@ -5,9 +5,9 @@
 				<div class="news-main--left">
 					<div class="news-all">
 						<div class="news-types" id="searchBlog">
-							<a href="/information" <% if (!typeID) { %> class="active" <% } %> >资讯</a>
+							<a href="/information" title="产业" <% if (!typeID) { %> class="active" <% } %> >产业</a>
 							<% catalog.forEach(function(c){ %>
-								<a href="/information/<%=c.id%>" 
+								<a href="/information/<%=c.id%>" title="<%=c.sort%>"
 									<% if (c.id == typeID) { %> class="active" <% } %>
 									data-id="<%=c.id%>">
 									<%=c.sort%>
@@ -28,7 +28,7 @@
 						    <div class="swiper-wrapper">
 						    	<% fancy.forEach(function(f){ %>
 							        <div  class="swiper-slide">
-							        	<a href="<%=f.link%>" target="_blank" class="swiper-blcok"><img src="<%=f.src_img%>" /></a>
+							        	<a href="<%=f.link%>" title="精彩推荐" target="_blank" class="swiper-blcok"><img src="<%=f.src_img%>" /></a>
 							        </div>
 						        <% }) %>
 						    </div>

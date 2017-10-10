@@ -1,0 +1,12 @@
+
+
+<div class="hot-tags">
+	<p class="hot-title">
+		友情链接
+	</p>
+	<div class="hot-list">
+		<% chains.forEach(function(b){ %>
+			<a href="<%=b.out_link%>" target="_blank" title="<%=b.web_name%>"><%=b.web_name%></a>
+		<% }) %>
+	</div>
+</div>

@@ -1,0 +1,115 @@
+<% include template/header.html %>
+
+	<div class="ac-baseinfo">
+		<div class="ac-image">
+			<img src="<%=b.cover_image%>" />
+		</div>
+		<div class="ac-title">
+			<%=b.title%>
+		</div>
+		<div class="ac-sponsor">
+			主办方: <%=b.sponsor%>
+		</div>
+		<div class="ac-time">
+			<i class="ion-ios-time-outline"></i> <%=b.start_time%> - <%=b.end_time%>
+		</div>
+		<div class="ac-place">
+			<i class="ion-ios-location-outline"></i> 
+			<%=b.province && b.province.name%>
+			<%=b.city && b.city.name%>
+			<%=b.location%>
+		</div>
+		<% if (b.abstract) { %>
+			<div class="ac-abstract">
+				<%=b.abstract%>
+			</div>
+		<% } %>
+		
+	</div>
+	<div class="ac-content">
+		<div class="ac-edit">
+			<%-b.content%>
+		</div>
+
+		<div class="ac-place">
+			<p class="ac-section-title">
+				活动地点
+			</p>
+			<div class="ac-map">
+				<div class="map" id="map"></div>
+			</div>
+		</div>
+		<div class="article__relative-blog">
+			<p class="article__relative-title">
+				相关活动
+			</p>
+			<div class="relative-blog">
+				<%  aboutAc.forEach(function(b){ %>
+					<a href="/activities/article/<%=b.id%>" class="relative-blog-item" title="<%=b.title%>">
+						<img data-original="<%=b.cover_image%>" alt="<%=b.title%>">
+						<p class="relative-blog-title">
+							<span><%=b.title%></span>
+						</p>
+					</a>
+				<% }) %>
+			</div>
+		</div>
+	</div>
+		<% include template/footer.html %>
+	</body>
+	<% include template/script.html %>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=5gyrZerE7ngiQYa1kg4q9d28bafdGG0x"></script>
+	<script type="text/javascript">
+
+		wx.ready(function () {
+			wx.onMenuShareAppMessage({
+				title: '<%=b.title%>', // 分享标题
+			    desc: '<%=b.abstract%>', // 分享描述
+			    link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			    imgUrl: '<%=b.poster_image%>', // 分享图标
+			    type: '', // 分享类型,music、video或link，不填默认为link
+			    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+			    success: function () { 
+			        // 用户确认分享后执行的回调函数
+			        console.log('success')
+			    },
+			    cancel: function () { 
+			        // 用户取消分享后执行的回调函数
+			    }
+			})
+
+			wx.onMenuShareTimeline({
+				title: '<%=b.title%>', // 分享标题
+			    link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+			    imgUrl: '<%=b.img_src%>', // 分享图标
+			    success: function () { 
+			        // 用户确认分享后执行的回调函数
+			        console.log('success')
+			    },
+			    cancel: function () { 
+			        // 用户取消分享后执行的回调函数
+			    }
+			})
+		})
+
+		// 百度地图API功能
+		var map = new BMap.Map("map");
+		var point = new BMap.Point(116.331398,39.897445);
+		var top_left_navigation = new BMap.NavigationControl();
+
+		map.centerAndZoom(point,12);
+		map.addControl(top_left_navigation);        
+		// 创建地址解析器实例
+		var myGeo = new BMap.Geocoder();
+		// 将地址解析结果显示在地图上,并调整地图视野
+		myGeo.getPoint("<%=b.city && b.city.name%><%=b.location%>", function(point){
+			if (point) {
+				var maker = new BMap.Marker(point), searchInfoWindow1;
+				map.centerAndZoom(point, 16);
+				map.addOverlay(maker);
+			}else{
+				alert("您选择地址没有解析到结果!");
+			}
+		}, "<%=b.province && b.province.name%>");
+
+	</script>

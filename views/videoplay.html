@@ -1,0 +1,86 @@
+<% include template/header.html %>
+	
+	<div class="video-player" id="videoContainer">
+		<div class="container">
+			<div class="video-left">
+				<div id="id_video_container"></div>
+			</div>
+
+			<div class="video-right">
+				<p class="video-title" id="blog-title"><%=video.title%></p>
+
+				<p class="video-headline">
+					<%=video.headline%>
+				</p>
+				<p class="video-keyword"><%=video.keyword%></p>
+				<p class="video-other">
+					<span><%=video.created_at%></span>
+					<span><%=video.signature%></span>
+				</p>
+
+				<div class="vide-share" id="share">
+					<a href="#"><i class="ion-thumbsup"></i></a>
+					<a href="#" data-share="qq" title="QQ分享"><i class="fa fa-qq"></i></a>
+					<a href="#" class="wx" title="微信分享">
+						<i class="fa fa-weixin"></i>
+						<div class="wx-qr">
+							<img id="qrcode" width="100" height="100">
+						</div>
+					</a>
+					<a href="#" data-share="wb" title="微博分享"><i class="fa fa-weibo"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% include template/footer.html %>
+	</body>
+	<% include template/script.html %>
+	<script src="//qzonestyle.gtimg.cn/open/qcloud/video/h5/h5connect.js" charset="utf-8"></script>
+	<script type="text/javascript">
+		$(function () {
+
+			var _height = $(document).height() - $('#header').height() - $('#footer').height();
+			var $videoContainer = $('#videoContainer');
+			var $qrcode = $('#qrcode');
+
+			$videoContainer.css({
+				minHeight: _height
+			})
+
+			$qrcode.attr( 'src', '/qrcode?text=' + encodeURI(window.location.href));
+
+			var player = new qcVideo.Player("id_video_container", {
+				    "file_id": "<%=video.uploadmovies.filed_id%>",
+				    "app_id": "1252927486",
+				    "width": 640,
+				    "height": 480
+				});
+
+			$('#share').on('click', 'a', function (e) {
+				e.preventDefault();
+				var $this = $(this),
+					$title = $('#blog-title'),
+					$img = $('#blog-img');
+
+				var type = $this.data('share'),
+					title = encodeURI($title.text().trim()),
+					picurl = encodeURI($img.attr('src'));
+
+				var shareStr = '',
+					url = encodeURI(window.location.href);
+
+				if (type === 'qq') {
+					shareStr = 'https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?title='+title+'&url='+url+'&pics='+picurl;
+				}
+				else if (type === 'wb') {
+					shareStr='http://service.weibo.com/share/share.php?title='+title+'&url='+url+'&content=utf-8&sourceUrl='+url+'&pics='+picurl
+				}
+
+				if (shareStr) {
+					window.open(shareStr);
+				}
+			})
+		})
+	</script>
+

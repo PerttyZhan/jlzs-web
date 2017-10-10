@@ -27,7 +27,6 @@
  	}
 
  	.nav {
- 		margin: 0 50px;
  		> a {
  			margin: 0 20px;
  		}
@@ -42,6 +41,7 @@
  		padding-left: 0;
  		padding-right: 0;
  		vertical-align: middle;
+
  		&.report {
  			background: @primary-color;
  			color: #fff;
@@ -51,6 +51,10 @@
 
  		&.toggleMenu {
  			font-size: 30px;
+ 			display: none;
+ 		}
+
+ 		&.toggleSearch {
  			display: none;
  		}
  	}
@@ -81,7 +85,13 @@
  		}
  	}
 
+ 	.header-btn {
+ 		display: flex;
+    	align-items: center;
+ 	}
+
  	.header-search {
+ 		margin-right: 14px;
  		.search {
  			position: relative;
  			width: 200px;
@@ -108,22 +118,68 @@
  	@media screen {
 
  		@media (max-width: 900px) {
+ 			position: fixed;
+ 			top: 0;
+ 			left: 0;
+ 			width: 100%;
+ 			z-index: 100;
  			.logo {
- 				width: 150px;
+ 				width: auto;
+ 				> img {
+ 					height: 40px;
+ 					width: auto;
+ 				}
  			}
  			.btn {
  				font-size: 12px;
  				&.report {
+ 					padding: 5px 8px;
+ 				}
+ 				&.toggleSearch {
+ 					font-size: 20px;
+ 					vertical-align: middle;
+ 					display: inline-block;
  				}
  				&.toggleMenu {
  					display: inline-block;
  				}
  			}
+ 			.nav {
+ 				> a {
+ 					flex: 1;
+ 					text-align: center;
+ 					padding-left: 0;
+ 					padding-right: 0;
+ 				}
+ 			}
+ 			.gzh {
+ 				display: none;
+ 			}
+ 			.header-search {
+ 				position: fixed;
+ 				top: 50px;
+ 				left: -100%;
+ 				width: 100%;
+ 				background: #fff;
+ 				padding: 0 10px 10px;
+		 		transition: .2s left ease-in-out;
+		 		&.active {
+		 			left: 0;
+		 		}
+    			.search {
+    				width: 100%;
+    			}
+ 			}
+ 			.header-btn {
+ 				position: absolute;
+			    top: 0;
+			    right: 5px;
+ 			}
  			.header-menu {
  				position: absolute;
 		 		left: -100%;
 		 		top: 100%;
-		 		width: 200px;
+		 		width: 100%;
 		 		background: #f0f0f0;
 		 		transition: .2s left ease-in-out;
 		 		&.active {

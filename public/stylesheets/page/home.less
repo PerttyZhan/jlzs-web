@@ -4,13 +4,6 @@
 
 @import '../mixin/index';
 
-.swiper-blcok {
-	position: relative;
-	display: block;
-	width: 100%;
-	padding-top: 31.25%;
-}
-
 .banner {
 	margin-top: 30px;
 	.swiper-container {
@@ -28,132 +21,116 @@
  .lastnews {
  	margin-top: 30px;
  	>.container {
- 		.flexClum(@ai: stretch);
- 	}
-
- 	.banner-left {
  		position: relative;
- 		width: 60%;
+ 		.flexClum(@ai: stretch, @jc: flex-start);
+ 	}
+ 	.lastnews-pos {
+ 		position: relative;
+ 		width: 100%;
+ 		padding-top: 66.667%;
  		overflow: hidden;
  	}
- 	.lastnews-show {
- 		display: block;
- 		height: 100%;
+ 	.lastnews-left {
+ 		position: relative;
+ 		width: 50%;
+ 		overflow: hidden;
  	}
- 	.lastnews-show__des {
+
+ 	img {
+ 		position: absolute;
+	    width: 100%;
+	    height: 100%;
+	    display: block;
+	    top: 0;
+	    left: 0;
+	    transition: .5s transform;
+ 	}
+
+ 	.lastnews-right {
+ 		width: 50%;
+ 		.flexClum(@d: column);
+ 	}
+
+ 	.lastnews-right-cell {
+ 		width: 100%;
+ 		.flexClum;
+ 	}
+
+ 	.lastnews-right-item {
+ 		position: relative;
+ 		display: block;
+ 		flex: 1;
+ 		padding-left: 15px;
+
+ 		&:hover{
+ 			img {
+ 				transform: scale(1.1);
+ 			}
+ 		}
+ 	}
+
+ 	.lastnews-type {
+ 		position: absolute;
+ 		top: 0; left: 0;
+ 		width: 80px;
+	    height: 35px;
+	    color: #fff;
+	    text-align: center;
+	    line-height: 35px;
+ 		background: @primary-color;
+ 	}
+ 	.lastnews-title {
  		position: absolute;
  		bottom: 0;
- 		left: 0;
- 		background: rgba(0, 0, 0, .5);
- 		padding: 20px;
+ 		left: 0 ;
+ 		right: 0;
+ 		height: 50px;
+ 		padding: 7px 10px;
+ 		overflow: hidden;
+ 		background-color: rgba(0, 0, 0, .5);
  		color: #fff;
- 		z-index: 10;
- 		width: 100%;
- 	}
- 	.lastnews-show__img {
- 		will-change: transform;
- 		transform-origin: center;
- 		transition: .5s transform;
- 		width: 100%;
- 		height: auto;
- 		cursor: pointer;
- 		display: block;
- 		&:hover {
- 			transform: scale(1.2);
- 		}
- 	}
- 	.lastnews-show__title {
- 		display: block;
- 		font-size: 14px;
-    	margin-bottom: 15px;
-    	cursor: pointer;
-    	color: #fff;
-    	&:hover {
-    		color: @primary-color;
-    	}
- 	}
- 	.banner-right {
- 		flex: 1;
- 		padding: 15px 20px;
- 		background: #fff;
- 		color: #777;
- 		overflow: hidden;
  	}
 
- 	.lastnews-list__title {
- 		font-size: 18px;
- 		color: @primary-color;
- 		margin-bottom: 20px;
- 	}
-
- 	.lastnews-list__item {
- 		position: relative;
- 		display: block;
- 		padding-left: 40px;
- 		padding-bottom: 10px;
- 		border-left: 2px solid #f0f0f0;
- 		cursor: pointer;
- 		&:before {
- 			content: '';
- 			position: absolute;
- 			left: -10px;
- 			top: 10px;
- 			width: 18px;
- 			height: 18px;
- 			border: 2px solid #f0f0f0;
- 			border-radius: 50%;
- 			z-index: 10;
- 			background: #fff;
- 		}
-
- 		&:after {
- 			content: '';
- 			position: absolute;
- 			left: -6px;
- 			top: 14px;
- 			width: 10px;
- 			height: 10px;
- 			border-radius: 50%;
- 			background: transparent;
- 			z-index: 10;
- 		}
- 		&:hover {
- 			&:before {
- 				border-color: @primary-color;
+ 	@media screen{
+ 		@media (max-width: 700px) {
+ 			.lastnews {
+ 				margin-bottom: -10px;
  			}
- 			&:after {
- 				background-color: @primary-color;
+ 			.lastnews-left {
+ 				display: none;
+ 			}
+ 			 .lastnews-right {
+ 				width: 100%;
+ 			}
+ 			.lastnews-right-cell {
+ 				margin-right: 0;
+ 				margin-bottom: 10px;
+ 				> a {
+ 					&:first-child {
+ 						padding-left: 0;
+ 					}
+ 					&:last-child {
+ 						padding-right: 0;
+ 					}
+ 				}
  			}
  		}
- 		&.active {
- 			color: @primary-color;
- 			.lastnews-list__date  {
- 				color: @primary-color;
+ 		@media (max-width: 900px) {
+ 			.lastnews-type {
+ 				width: 50px;
+    			height: 25px;
+    			line-height: 25px;
+    			font-size: 12px;
  			}
- 			&:before {
- 				border-color: @primary-color;
+ 			.lastnews-title {
+ 				font-size: 12px;
  			}
- 			&:after {
- 				background-color: @primary-color;
- 			}
- 		}
- 	}
-
- 	.lastnews-list__item-title {
- 		white-space: nowrap;
- 		overflow: hidden;
- 		text-overflow: ellipsis;
- 	}
- 	.lastnews-list__item-s_title {
- 		margin-top: 5px;
- 		color: #777;
- 		height: 40px;
- 		overflow: hidden;
+	    }
  	}
  }
 
  .news-main {
- 	margin: 30px 0 30px;
+ 	margin: 30px 0 0;
  	.container {
  		.flexClum(@jc: flex-start, @ai: stretch);
  	}
@@ -162,8 +139,30 @@
  	}
  	.news-main--right {
  		flex: 1;
- 		padding: 0 0 0 50px;
+ 		padding: 0 0 0 30px;
  		overflow: hidden;
+ 	}
+
+ 	@media screen{
+ 		@media (max-width: 1040px) {
+ 			.news-main--left {
+ 				width: 100%;
+ 			}
+ 			.news-main--right {
+ 				flex: inherit;
+ 				padding: 0;
+ 				.flexClum(@ai: flex-start);
+ 			}
+ 			.hot-news, .hot-tags {
+ 				width: 49%;
+ 				margin-top: 0;
+ 			}
+ 		}
+ 		@media (max-width: 700px) {
+ 			.hot-news, .hot-tags {
+ 				width: 100%;
+ 			}
+ 		}
  	}
  }
 
@@ -184,6 +183,16 @@
  			box-shadow: none;
  		}
  	}
+
+ 	@media screen{
+ 		@media (max-width: 700px) {
+ 			&.long {
+ 				.news-module__list {
+ 					width: 100%;
+ 				}
+ 			}
+ 		}
+	}
  	.news-module__title {
  		.flexClum;
  		width: 100%;
@@ -337,7 +346,6 @@
 
  	.customer-news {
  		padding-left: 30px;
- 		padding-bottom: 20px;
  		li {
  			position: relative;
  			&:before {
@@ -363,6 +371,19 @@
  				color: @primary-color;
  			}
  		}
+ 	}
+
+ 	.customer-more {
+ 		display: block;
+	    width: 100%;
+	    text-align: right;
+	    color: #999;
+	    padding: 0 20px 20px 0;
+	    
+	    font-size: 12px;
+	    &:hover {
+	    	color: @primary-color;
+	    }
  	}
  }
 
@@ -450,7 +471,7 @@
 
  .hot-tags {
  	margin-top: 30px;
- 	margin-bottom: 20px;
+ 	margin-bottom: 30px;
  	background: #fff;
  	.hot-title {
  		font-size: 16px;
@@ -470,7 +491,7 @@
  			font-size: 12px;
  			display: inline-block;
  			margin: 5px;
- 			padding: 5px 10px;
+ 			padding: 5px 6px;
  			border: 1px solid @primary-color;
  			color: @primary-color;
  			&:hover {
@@ -484,7 +505,10 @@
  .hotgzh {
  	background: @body-background;
  	margin: 10px -10px -10px;
-    padding-top: 30px
+    padding-top: 30px;
+    > img {
+    	width: 100%;
+    }
  }
 
  .footer {

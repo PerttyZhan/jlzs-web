@@ -1,0 +1,31 @@
+<% include template/header.html %>
+		<div class="video-list">
+			<div class="container">
+				<div class="video-list-item">
+					<%  videos.data.forEach(function(v){ %>
+						<a target="_blank" href="/video/<%=v.id%>/detail" class="video-blog" title="<%=v.title%>">
+							<div class="video-blog-img">
+								<img src="<%=v.uploadmovies.coverUrl%>" alt="<%=v.title%>">
+								<div class="video-blog-shadow">
+									<span class="video-player">
+										<i class="ion-ios-play"></i>
+									</span>
+									<span class="video-time"></span>
+								</div>
+							</div>
+							<div class="video-blog-info">
+								<p class="video-blog-title"><%=v.title%></p>
+								<p class="video-blog-headline"><%=v.headline%></p>
+								<p class="video-other">
+									<span class="video-time"><%=v.created_at%></span>
+									<span class="video-creator"><%=v.signature%></span>
+								</p>
+							</div>
+						</a>
+					<% }) %>
+				</div>
+			</div>
+		</div>
+	<% include template/footer.html %>
+	</body>
+	<% include template/script.html %>

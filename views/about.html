@@ -27,8 +27,10 @@
 
 			var $left = $('#left');
 			var $right = $('#right');
-			$left.find('p:first-child').addClass('active');
-			$right.find('div:first-child').show();
+			var index = window.location.hash.slice(1) || 0;
+
+			$left.find('p').eq(index).addClass('active');
+			$right.find('.about').eq(index).show();
 
 			$left.on('click', 'p', function () {
 				var $this = $(this);

@@ -1,19 +1,36 @@
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery_lazyload/1.9.7/jquery.lazyload.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
 <script type="text/javascript">
 	$(function () {
 		var $headMenu = $('#headerMenu');
+		var $headerSearch = $('#headerSearch');
+		var $toggleMenu = $('#toggleMenu');
+		var $toggleSearch = $('#toggleSearch');
+
 		var $searchBtn = $('#searchBtn');
 		var $searchInput = $('#searchInput');
 
 		$("img").lazyload({effect: "fadeIn", skip_invisible: true, failure_limit: 10});
 
-		$('#toggleMenu').on('click', function () {
+		$toggleMenu.on('click', function () {
+			$headerSearch.removeClass('active')
 			if ($headMenu.hasClass('active')) {
 				$headMenu.removeClass('active')
 			}
 			else {
 				$headMenu.addClass('active')
+			}
+		})
+
+		$toggleSearch.on('click', function () {
+			$headMenu.removeClass('active')
+			if ($headerSearch.hasClass('active')) {
+				$headerSearch.removeClass('active')
+			}
+			else {
+				$headerSearch.addClass('active')
 			}
 		})
 
@@ -24,7 +41,7 @@
 				return ;
 			}
 
-			window.open('/search/article/' + value);
+			window.open('/search/hole/' + value);
 		})
 
 		$searchInput.on('keyup', function (e) {
@@ -34,9 +51,27 @@
 				if (!value) {
 					return ;
 				}
-
-				window.open('/search/article/' + value);
+				window.open('/search/hole/' + value);
 			}
 		})
 	})
+
+	$.ajax({
+		url: '/website/wx/config/',
+		data: {url: window.location.href.split('#')[0]},
+		success: function (config) {
+			wx.config({
+				debug: false,
+				appId: config.appId,
+				timestamp: config.timestamp,
+				nonceStr: config.nonceStr,
+				signature: config.signature,
+				jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline']
+			})
+		},
+		error: function (err) {
+		}
+	})
+
+
 </script>

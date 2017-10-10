@@ -1,11 +1,13 @@
 <% hotBlog.forEach(function(b){ %>
 <div class="new">
 	<div class="new--left">
-		<a href="/<%=b.difference %>/article/<%=b.id%>" target="_blank"><img data-original="<%=b.img_src %>"></a>
+		<a href="/<%=b.difference %>/article/<%=b.id%>" title="<%=b.headline%>" target="_blank">
+			<img data-original="<%=b.img_src %>" alt="<%=b.headline%>">
+		</a>
 	</div>
 	<div class="new--right">
-		<a class="new-title" href="/<%=b.difference %>/article/<%=b.id%>" target="_blank">
-			<%=b.headline %>
+		<a class="new-title" href="/<%=b.difference %>/article/<%=b.id%>" title="<%=b.headline%>" target="_blank">
+			<h2><%=b.headline %></h2>
 		</a>
 	</div>
 	<p class="new-author">

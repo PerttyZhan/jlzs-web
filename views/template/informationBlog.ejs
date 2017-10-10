@@ -1,23 +1,25 @@
 <%  data.forEach(function(b){ %>
 	<div class="news-item">
 		<div class="news-image">
-			<a href="/<%=b.difference%>/article/<%=b.id%>" target="_blank"><img src="<%=b.img_src%>" /></a>
+			<a href="/<%=b.difference%>/article/<%=b.id%>" title="<%=b.headline%>" target="_blank">
+				<img src="<%=b.img_src%>" alt="<%=b.headline%>"/>
+			</a>
 			
 		</div>
 		<div class="news-des">
-			<a class="news-title" href="/article/<%=b.id%>" target="_blank"><%=b.headline%></a>
+			<a class="news-title" href="/<%=b.difference%>/article/<%=b.id%>" title="<%=b.headline%>" target="_blank"><%=b.headline%></a>
 			<p class="news-smll-title"><%=b.title%></p>
 
 			<div class="news-keys">
 				<% b.intag.forEach(function(t){ %>
-					<span><%= t.name %></span>
+					<span><%=t.name %></span>
 				<% }) %>
 			</div>
 			
 			<div class="news-posts">
-				<span><i class="ion-ios-calendar-outline"></i><%=b.created_at%></span>
+				<span><i class="ion-ios-calendar-outline"></i><%=b.formattimer%></span>
 				<div>
-					<span><%=b.creator%> <i class="ion-person"></i></span>
+					<span><%=b.name%> <i class="ion-person"></i></span>
 				</div>
 			</div>
 		</div>
@@ -28,7 +30,7 @@
 	<div class="news-loadmore" 
 		id="loadMore" 
 		data-page="<%=current_page%>"
-		data-choice=<%=information%>>
+		data-choice="information">
 		加载更多
 	</div>
 <% } %>
