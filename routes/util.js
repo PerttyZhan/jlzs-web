@@ -27,6 +27,6 @@ module.exports = {
 	formatVideoTime (b) {
 		var time = b.uploadmovies && b.uploadmovies.time;
 
-		b.time = moment(time * 1000 - (8 * 60 * 60 * 1000)).format('HH:mm:ss')
+		b.time = moment(time * 1000 - (8 * 60 * 60 * 1000)).format('mm:ss')
 	}
 }

@@ -4,10 +4,12 @@
 			<div class="container">
 				<div class="news-main--left">
 					<div class="news-all">
-						<div style="margin-bottom: 20px">
+						<div style="position: relative;margin-bottom: 20px">
 							<p style="text-align: center;background: #fff;padding: 10px 0;color: #999;">
 								<strong style="color:rgba(255, 0, 0, .49)">'<%=search%>'</strong> 的搜索结果
 							</p>
+
+							<a href="/search/video/<%=search%>" target="_blank" class="search-video">视频文章搜索</a>
 						</div>
 						<div class="news-pages" id="pages">
 							<%- blogHtml %>

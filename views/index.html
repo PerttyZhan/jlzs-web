@@ -73,19 +73,29 @@
 					</div>
 
 					<div class="lastnews-right-cell">
-						<% twoReport.forEach(function(c){ %>	
-			    			<a class="lastnews-right-item" target="_blank" title="<%=c.headline%>" href="/<%=c.difference%>/article/<%=c.id%>">
-								<div class="lastnews-pos">
-									<img src="<%=c.img_src%>" alt="<%=c.headline%>">
-									<% if (c.sort) { %>
-										<span class="lastnews-type"><%=c.sort.sort%></span>
-									<% } %>
-									<h4 class="lastnews-title">
-										<%=c.headline%>
-									</h4>
-								</div>
-							</a>
-			       		<% }) %>
+		    			<a class="lastnews-right-item" target="_blank" title="<%=hotReport.headline%>" href="/<%=hotReport.difference%>/article/<%=hotReport.id%>">
+							<div class="lastnews-pos">
+								<img src="<%=hotReport.img_src%>" alt="<%=hotReport.headline%>">
+								<% if (hotReport.sort) { %>
+									<span class="lastnews-type"><%=hotReport.sort.sort%></span>
+								<% } %>
+								<h4 class="lastnews-title">
+									<%=hotReport.headline%>
+								</h4>
+							</div>
+						</a>
+
+						<a class="lastnews-right-item" target="_blank" title="<%=video.title%>" href="/video/<%=video.id%>/detail">
+							<div class="lastnews-pos">
+								<img src="<%=video.m_cover_url || video.uploadmovies.coverUrl%>" alt="<%=video.title%>">
+								<% if (video.mv_sort) { %>
+									<span class="lastnews-type"><%=video.mv_sort.sort%></span>
+								<% } %>
+								<h4 class="lastnews-title">
+									<%=video.headline%>
+								</h4>
+							</div>
+						</a>
 					</div>
 				</div>
 			</div>

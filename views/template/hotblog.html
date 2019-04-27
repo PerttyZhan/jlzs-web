@@ -2,16 +2,18 @@
 <div class="new">
 	<div class="new--left">
 		<a href="/<%=b.difference %>/article/<%=b.id%>" title="<%=b.headline%>" target="_blank">
-			<img data-original="<%=b.img_src %>" alt="<%=b.headline%>">
+			<img data-original="<%=b.img_src || b.cover_image %>" alt="<%=b.headline%>">
 		</a>
 	</div>
 	<div class="new--right">
 		<a class="new-title" href="/<%=b.difference %>/article/<%=b.id%>" title="<%=b.headline%>" target="_blank">
-			<h2><%=b.headline %></h2>
+			<h2><%=b.headline || b.title %></h2>
 		</a>
 	</div>
-	<p class="new-author">
-		<i class="ion-person"></i>	<%=b.name%>
-	</p>
+	<% if (b.name) { %>
+		<p class="new-author">
+			<i class="ion-person"></i>	<%=b.name%>
+		</p>
+	<% } %>
 </div>
 <% }) %>

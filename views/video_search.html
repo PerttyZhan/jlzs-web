@@ -2,7 +2,7 @@
 		<div class="video-list" id="video-list">
 			<div class="container">
 				<div class="video-list-item">
-					<%  videos.data.forEach(function(v){ %>
+					<%  videos.forEach(function(v){ %>
 						<a target="_blank" href="/video/<%=v.id%>/detail" class="video-blog" title="<%=v.title%>">
 							<div class="video-blog-main">
 								<div class="video-blog-img">
@@ -16,11 +16,6 @@
 								</div>
 								<div class="video-blog-info">
 									<p class="video-blog-title"><%=v.title%></p>
-									<!-- <p class="video-blog-headline"><%=v.headline%></p> -->
-									<!-- <p class="video-other">
-										<span class="video-time"><%=v.created_at%></span>
-										<span class="video-creator"><%=v.signature%></span>
-									</p> -->
 								</div>
 							</div>
 						</a>

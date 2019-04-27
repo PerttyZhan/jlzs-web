@@ -3,23 +3,57 @@
 	<div class="video-player" id="videoContainer">
 		<div class="container">
 			<div class="video-left">
-				<div id="id_video_container"></div>
+				<div id="id_video_container" style="overflow: hidden"></div>
+				<div class="video-info-detail">
+					<h3 class="videp-info-title"><%=video.title%></h3>
+
+					<p class="video-info-headline"><%=video.headline%></p>
+
+					<p class="video-tags">
+						<% video.tag.forEach(function (t) { %>
+							<span class="video-info-tag"><%=t.name%></span>
+						<% }) %>
+					</p>
+
+					<span class="video-info-name"><%=video.signature%></span>
+
+					<div class="blog-zan-block">
+						<a href="#" class="blog-zan" id="zan-blog">
+							<i class="ion-thumbsup"></i>
+							<span class="zan-animated">+1</span>
+						</a>
+						<span id="zan-show"><%=video.like%></span>
+					</div>
+				</div>
 			</div>
 
 			<div class="video-right">
-				<p class="video-title" id="blog-title"><%=video.title%></p>
-
-				<p class="video-headline">
-					<%=video.headline%>
-				</p>
-				<p class="video-keyword"><%=video.keyword%></p>
-				<p class="video-other">
-					<span><%=video.created_at%></span>
-					<span><%=video.signature%></span>
+				<p class="video-title" id="blog-title">
+					<%=video.title%>
 				</p>
 
+				<p class="video-about-title">
+					相关视频
+				</p>
+
+				<div class="video-about-list">
+					<% aboutVideo.forEach(function (v) { %>
+						<a href="/video/<%=v.id%>/detail" class="video-about-item" title="<%=v.title%>">
+							<img src="<%=v.m_cover_url || v.uploadmovies.coverUrl%>" alt="<%=video.title%>" />
+
+							<span class="video-about-time">
+								<%=v.time%>
+							</span>
+
+							<p class="video-about-info">
+								<span><%=v.title%></span>
+							</p>
+						</a>
+					<% }) %>
+
+					
+				</div>
 				<div class="vide-share" id="share">
-					<a href="#"><i class="ion-thumbsup"></i></a>
 					<a href="#" data-share="qq" title="QQ分享"><i class="fa fa-qq"></i></a>
 					<a href="#" class="wx" title="微信分享">
 						<i class="fa fa-weixin"></i>
@@ -40,22 +74,35 @@
 	<script type="text/javascript">
 		$(function () {
 
-			var _height = $(document).height() - $('#header').height() - $('#footer').height();
+			var _height = $(document).height() - parseInt($('#header').outerHeight()) - parseInt($('#footer').outerHeight());
+			var w_width = parseInt($(window).width());
 			var $videoContainer = $('#videoContainer');
 			var $qrcode = $('#qrcode');
+			var $zan = $('#zan-blog'), zan_num = <%=video.like%>;
+			var $zanShow = $('#zan-show');
 
 			$videoContainer.css({
-				minHeight: _height
+				minHeight: Math.ceil(_height)
 			})
 
 			$qrcode.attr( 'src', '/qrcode?text=' + encodeURI(window.location.href));
 
-			var player = new qcVideo.Player("id_video_container", {
+			if (w_width > 700) {
+				var player = new qcVideo.Player("id_video_container", {
 				    "file_id": "<%=video.uploadmovies.filed_id%>",
 				    "app_id": "1252927486",
-				    "width": 640,
-				    "height": 480
+				    "width": 900,
+				    "height": Math.ceil(900 / 1.78)
 				});
+			}
+			else {
+				var player = new qcVideo.Player("id_video_container", {
+				    "file_id": "<%=video.uploadmovies.filed_id%>",
+				    "app_id": "1252927486",
+				    "width": w_width,
+				    "height": Math.ceil(w_width / 1.78)
+				});
+			}
 
 			$('#share').on('click', 'a', function (e) {
 				e.preventDefault();
@@ -80,6 +127,64 @@
 				if (shareStr) {
 					window.open(shareStr);
 				}
+			})
+
+			$zan.on('click', function (e) {
+				e.preventDefault();
+				var $this = $(this);
+
+				$.ajax({
+					url: '/article/like/<%=video.id%>',
+					data: {choice: 'movies'},
+					success: function (res) {
+						if (!res.errcode) {
+							$this
+								.find('.zan-animated')
+								.addClass('videoFadeOutTop')
+
+							setTimeout(function () {
+								$this.find('.zan-animated').removeClass('videoFadeOutTop');
+							}, 1200)
+							
+							zan_num = zan_num + 1;
+							$zanShow.text( zan_num );
+						}
+					},
+					error: function (err) {
+						console.log(err)
+					}
+				})	
+			})
+
+			wx.ready(function () {
+				wx.onMenuShareAppMessage({
+					title: '<%=video.title%>', // 分享标题
+				    desc: '<%=video.headline%>', // 分享描述
+				    link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				    imgUrl: '<%=video.uploadmovies.coverUrl%>', // 分享图标
+				    type: '', // 分享类型,music、video或link，不填默认为link
+				    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+				    success: function () { 
+				        // 用户确认分享后执行的回调函数
+				        console.log('success')
+				    },
+				    cancel: function () { 
+				        // 用户取消分享后执行的回调函数
+				    }
+				})
+
+				wx.onMenuShareTimeline({
+					title: '<%=video.title%>', // 分享标题
+				    link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				    imgUrl: '<%=video.headline%>', // 分享图标
+				    success: function () { 
+				        // 用户确认分享后执行的回调函数
+				        console.log('success')
+				    },
+				    cancel: function () { 
+				        // 用户取消分享后执行的回调函数
+				    }
+				})
 			})
 		})
 	</script>

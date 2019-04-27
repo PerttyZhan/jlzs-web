@@ -3,6 +3,9 @@
 		<div class="news-main">
 			<div class="container">
 				<div class="news-main--left">
+					<p style="margin-bottom: 20px">
+						<a href="/tag/<%=tag_id%>/video" target="_blank" style="color: #2b98f0;background: #fff;padding: 5px;">搜索视频文章</a>
+					</p>
 					<div class="news-all">
 						<div class="news-pages" id="pages">
 							<%- blogHtml %>
@@ -75,7 +78,7 @@
 				params.page = parseInt(params.page) + 1;
 
 				$.ajax({
-					url: '/tag/search/<%=tag_id%>/<%=diff%>',
+					url: '/tag/search/<%=tag_id%>/blog',
 					data: params,
 					success: function (res) {
 						$this.replaceWith(res);

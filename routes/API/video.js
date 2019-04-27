@@ -28,7 +28,49 @@ module.exports = {
 		request
 			.get(config.api_url + `/web_movies/${id}`)
 			.end((err, res) => {
+				util.formatVideoTime(res.body)
 				deferred.resolve(res.body);
+			})
+		return deferred.promise;
+	},
+	fetchOneAboutVideo (id) {
+		var deferred = Q.defer();
+		request
+			.get(config.api_url + `/mv_ab_tag/${id}`)
+			.end((err, res) => {
+				var data = res.body.data;
+				for (var i = 0; i < data.length; i++) {
+					util.formatVideoTime(data[i])
+				}
+				deferred.resolve(data);
+			})
+		return deferred.promise;
+	},
+	fetchVideoSearch (search) {
+		var deferred = Q.defer();
+		request
+			.get(config.api_url + '/mv_search')
+			.query({search: search})
+			.end((err, res) => {
+				var data = res.body.data;
+				for (var i = 0; i < data.length; i++) {
+					util.formatVideoTime(data[i])
+				}
+				deferred.resolve(data);
+			})
+		return deferred.promise;
+	},
+	fetchVideoByTagId (id) {
+		var deferred = Q.defer();
+		request
+			.get(config.api_url + '/mv_tag')
+			.query({tag_id: id})
+			.end((err, res) => {
+				var data = res.body.data;
+				for (var i = 0; i < data.length; i++) {
+					util.formatVideoTime(data[i])
+				}
+				deferred.resolve(data);
 			})
 		return deferred.promise;
 	}

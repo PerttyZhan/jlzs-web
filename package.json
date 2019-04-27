@@ -22,6 +22,7 @@
     "vconsole": "^2.5.2"
   },
   "devDependencies": {
-    "minireset.css": "^0.0.3"
+    "minireset.css": "^0.0.3",
+    "react-css-modules": "^4.7.1"
   }
 }

@@ -195,24 +195,31 @@
 	text-align: center;
 	position: relative;
 	> a {
-		color: #999;
 		display: inline-block;
+		vertical-align: middle;
+		width: 56px;
+	    height: 30px;
+	    text-align: center;
+	    color: #ff6428;
+	    border: 1px #f0f0f0 solid;
+	    border-radius: 16px;
+	    cursor: pointer;
+	    color: #ff6428;
 		transition: .2s color ease-in-out;
 		&:hover {
 			color: @primary-color;
+			border-color: @primary-color;
 		}
 	}
 	i {
-		font-size: 25px;
-   	 	vertical-align: middle;
-	}
-	span {
-		font-size: 20px;
-		margin-left: 5px;
+    	width: 20px;
+    	height: 20px;
+    	font-size: 20px;
     	vertical-align: middle;
-	}
-	small {
-		font-size: 14px;
+    }
+	span {
+		display: inline-block;
+		margin-left: 10px;
 	}
 	.zan-animated {
 		position: absolute;

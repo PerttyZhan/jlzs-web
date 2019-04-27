@@ -11,13 +11,13 @@
 			<p class="news-smll-title"><%=b.title%></p>
 
 			<div class="news-keys">
-				<% b.intag.forEach(function(t){ %>
+				<% b.tag.forEach(function(t){ %>
 					<span><%=t.name %></span>
 				<% }) %>
 			</div>
 			
 			<div class="news-posts">
-				<span><i class="ion-ios-calendar-outline"></i><%=b.formattimer%></span>
+				<span><i class="ion-ios-clock-outline"></i><%=b.formattimer%></span>
 				<div>
 					<span><%=b.name%> <i class="ion-person"></i></span>
 				</div>

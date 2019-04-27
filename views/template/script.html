@@ -57,7 +57,7 @@
 	})
 
 	$.ajax({
-		url: '/website/wx/config/',
+		url: '/website/wx/config',
 		data: {url: window.location.href.split('#')[0]},
 		success: function (config) {
 			wx.config({

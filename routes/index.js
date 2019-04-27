@@ -25,6 +25,7 @@ module.exports = function (app) {
 
 				blog.fetchHotestBlog(),
 				tag.fetchHotestTag(),
+				video.fetchMaxWeight(),
 
 				secondCatalog.getTypesBlog('information'),
 				secondCatalog.getTypesBlog('report'),
@@ -36,7 +37,7 @@ module.exports = function (app) {
 				blog.fetchIndexFiveActivity(),
 				website.fetchChain()
 			])
-			.spread((website, indexCarousel, hotBlog, hotTag, newsCatalog, reportCatalog, activityCatalog, aboutType, twoInfor, twoReport, fiveAc, chains) => {
+			.spread((website, indexCarousel, hotBlog, hotTag, video, newsCatalog, reportCatalog, activityCatalog, aboutType, twoInfor, twoReport, fiveAc, chains) => {
 				var websiteJson = {};
 
 				for (var i = 0, l = website.length; i < l; i++) {
@@ -50,11 +51,12 @@ module.exports = function (app) {
   					banner: indexCarousel.data,
   					hotBlog: hotBlog,
   					hotTag: hotTag,
+  					video: video,
 
   					newsCatalog: newsCatalog,
   					reportCatalog: reportCatalog,
   					activityCatalog: activityCatalog,
-  					twoReport: twoReport,
+  					hotReport: twoReport[0],
   					twoInfor: twoInfor,
   					fiveAc: fiveAc,
   					chains: chains,
@@ -181,7 +183,7 @@ module.exports = function (app) {
 				website.fetchAll(),
 				website.fetchCarousel('activities'),
 
-				blog.fetchBlog({choice: 'newactivities'}),
+				blog.fetchBlog({choice: 'newactivities', per_page: 100}),
 				secondCatalog.getType('newactivities'),
 
 				secondCatalog.getType('about'),
@@ -191,6 +193,9 @@ module.exports = function (app) {
 
 				var websiteJson = {};
 				var html, blogData = blog.data, address, blogOne;
+
+
+				// return res.send(blog);
 
 				for (var i = 0, l = website.length; i < l; i++) {
 					websiteJson[website[i].name] = website[i].values;
@@ -218,6 +223,7 @@ module.exports = function (app) {
 				}
 
 				html = templates.activityTemplate(blog);
+
 
 				res.render('activities', {
 					key: 'activities',
@@ -364,7 +370,7 @@ module.exports = function (app) {
 
 		})
 
-	app.route('/tag/:tag_id/:difference')
+	app.route('/tag/:tag_id/about')
 		.get((req, res) => {
 			var params = req.params;
 
@@ -405,7 +411,36 @@ module.exports = function (app) {
 			})
 		})
 
-	app.route('/tag/search/:tag_id/:difference')
+	app.route('/tag/:tag_id/video')
+		.get((req, res) => {
+			var params = req.params;	
+
+			Q.all([
+				website.fetchAll(),
+
+				video.fetchVideoByTagId(params.tag_id),
+
+				secondCatalog.getType('about'),
+			])
+			.spread((website, videos, aboutType) => {
+				var websiteJson = {};
+
+				for (var i = 0, l = website.length; i < l; i++) {
+					websiteJson[website[i].name] = website[i].values;
+				}
+
+				res.render('tag_video', {
+					key: 'video',
+					website: websiteJson,
+
+					videos: videos,
+
+					aboutType: aboutType,
+				})
+			})
+		})
+
+	app.route('/tag/search/:tag_id/blog')
 		.get((req, res) => {
 			var params = req.params;
 			var query = req.query;
@@ -436,6 +471,7 @@ module.exports = function (app) {
 				secondCatalog.getType('about'),
 			])
 			.spread((website, fancy, blog, hotBlog, hotTag, aboutType) => {
+
 				var html = templates.tagTemplate(blog);
 				var websiteJson = {};
 
@@ -455,6 +491,36 @@ module.exports = function (app) {
   					search: params.search,
   					aboutType: aboutType,
 
+				})
+			})
+
+		})
+
+	app.route('/search/video/:search')
+		.get((req, res) => {
+			var params = req.params;	
+
+			Q.all([
+				website.fetchAll(),
+
+				video.fetchVideoSearch(params.search),
+
+				secondCatalog.getType('about'),
+			])
+			.spread((website, videos, aboutType) => {
+				var websiteJson = {};
+
+				for (var i = 0, l = website.length; i < l; i++) {
+					websiteJson[website[i].name] = website[i].values;
+				}
+
+				res.render('video_search', {
+					key: 'video',
+					website: websiteJson,
+
+					videos: videos,
+
+					aboutType: aboutType,
 				})
 			})
 
@@ -494,7 +560,6 @@ module.exports = function (app) {
 						websiteJson[website[i].name] = website[i].values;
 					}
 
-					// res.send(aboutAc)
 
 					res.render('show_activity',{
 						key: 'activities',
@@ -552,8 +617,6 @@ module.exports = function (app) {
 
 	app.route('/website/wx/config')
 		.get((req, res) => {
-			console.log(req.query.url);
-
 			website
 				.fetchWxConifg(req.query.url)
 				.then(data => {
@@ -626,25 +689,30 @@ module.exports = function (app) {
 		.get((req, res) => {
 			var params = req.params;
 
+			console.log(params.id)
 			Q.all([
 				website.fetchAll(),
 
 				video.fetchOneVideo(params.id),
+				video.fetchOneAboutVideo(params.id),
 
 				secondCatalog.getType('about'),
 			])
-			.spread((website, video, aboutType) => {
+			.spread((website, video, aboutVideo, aboutType) => {
 				var websiteJson = {};
+				var likes = video.like && parseInt(video.like);
 
 				for (var i = 0, l = website.length; i < l; i++) {
 					websiteJson[website[i].name] = website[i].values;
 				}
 
+				// res.send(aboutVideo)
 				res.render('videoplay', {
 					key: 'video',
 					website: websiteJson,
 
 					video: video,
+					aboutVideo: aboutVideo,
 
 					aboutType: aboutType,
 				})

@@ -43,9 +43,9 @@
 							<div class="article-zan">
 								<a href="#" id="zan" title="点赞">
 									<i class="ion-thumbsup"></i>
-									<span>赞<small>(<%=blog.like%>)</small></span>
 									<span class="zan-animated">+1</span>
 								</a>
+								<span id="zan-show"><small><%=blog.like%></small></span>
 							</div>
 						</div>
 						<div class="article-operate-right">
@@ -146,7 +146,7 @@
 		})
 
 		var $qrcode = $('#qrcode');
-
+		var $zanNum = $('#zan-show');
 		$qrcode.attr( 'src', '/qrcode?text=' + encodeURI(window.location.href));
 
 		$(function () {
@@ -202,7 +202,7 @@
 							}, 1200)
 							
 							zan_num = zan_num + 1;
-							$this.find('small').text( '('+zan_num+')' );
+							$zanNum.find('small').text( zan_num );
 						}
 					},
 					error: function (err) {
